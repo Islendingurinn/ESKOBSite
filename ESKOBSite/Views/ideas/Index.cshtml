@@ -1,0 +1,335 @@
+﻿@model ESKOBSite.Viewmodel.IndexViewmodel
+@{
+    ViewBag.Title = "Ideas";
+}
+
+<div class="controls">
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ideaModal">
+        Add An Idea
+    </button>
+    <!-- Button trigger modal -->
+    <div class="dropdown">
+        <button type="button" class="btn btn-primary btn-gray dropdown-toggle" id="datemenu" data-toggle="dropdown">
+            Filters
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="datamenu">
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/all">All</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/day">Last day</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/week">Last week</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/month">Last month</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/year">Last year</a></li>
+            <li class="divider"></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/h">High Priority</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/m">Medium Priority</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/l">Low Priority</a></li>
+            <li class="divider"></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/new">New</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/progress">In Progress</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/implemented">Implemented</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ideaModal" tabindex="-1" role="dialog" aria-labelledby="ideaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ideaModalLabel">New Idea</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body center">
+                <form action="">
+                    <label for="title">Title:</label><br />
+                    <input type="text" id="title" name="title" /><br />
+                    <label for="description">Description:</label><br />
+                    <textarea rows="10" cols="50" id="description"></textarea><br />
+                    <ul class="likert">
+                        <li> Minimal Effort </li>
+                        <li><input type="radio" name="effort" value="1" /></li>
+                        <li><input type="radio" name="effort" value="2" /></li>
+                        <li><input type="radio" name="effort" value="3" /></li>
+                        <li><input type="radio" name="effort" value="4" /></li>
+                        <li><input type="radio" name="effort" value="5" /></li>
+                        <li> Maximum Effort </li>
+                    </ul><br />
+                    <ul class="likert">
+                        <li> Minimal Impact </li>
+                        <li><input type="radio" name="impact" value="1" /></li>
+                        <li><input type="radio" name="impact" value="2" /></li>
+                        <li><input type="radio" name="impact" value="3" /></li>
+                        <li><input type="radio" name="impact" value="4" /></li>
+                        <li><input type="radio" name="impact" value="5" /></li>
+                        <li> Maximum Impact </li>
+                    </ul><br />
+                    </form>
+</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveIdea()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ideas">
+    @foreach (var item in Model.Ideas)
+    {
+        <div class="idea">
+            <div class="priority">
+                @{
+                    switch (item.Priority)
+                    {
+                        case "H":
+                            <a href="~/@Model.Database/Ideas/Index/h" class="pValue high" title="High Priority">
+                                H
+                                <span class="pLabel">priority</span>
+                            </a>
+                            break;
+                        case "M":
+                            <a href="~/@Model.Database/Ideas/Index/m" class="pValue medium" title="Medium Priority">
+                                M
+                                <span class="pLabel">priority</span>
+                            </a>
+                            break;
+                        case "L":
+                            <a href="~/@Model.Database/Ideas/Index/l" class="pValue low" title="Low Priority">
+                                L
+                                <span class="pLabel">priority</span>
+                            </a>
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            </div>
+            <div class="info">
+                <div class="hashtags">
+                    @{
+                        switch (item.Status)
+                        {
+                            case "NEW":
+                                <a href="~/@Model.Database/Ideas/Index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                                    NEW
+                                </a>
+                                break;
+                            case "IN_PROGRESS":
+                                <a href="~/@Model.Database/Ideas/Index/progress" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
+                                    IN PROGRESS
+                                </a>
+                                break;
+                            case "IMPLEMENTED":
+                                <a href="~/@Model.Database/Ideas/Index/implemented" class="hashtag implemented hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                                    IMPLEMENTED
+                                </a>
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    @foreach (var hashtag in item.Hashtags)
+                    {
+                        <a href="~/@Model.Database/Ideas/Hashtag/@hashtag.Tag" class="hashtag tag hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Test">
+                            #@hashtag.Tag
+                        </a>
+                    }
+                </div>
+                <h2 class="title">
+                    <a href="idea">@item.Title</a>
+                </h2>
+                <div class="meta">
+                    <span class="metaText">
+                        Last edit: @item.Last_Edit • Comments: @item.Comments.Count()
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+    <script>
+        function saveIdea() {
+            var title = document.getElementById("title").value;
+            var description = document.getElementById("description").value;
+            var effort = document.querySelector('input[name="effort"]:checked').value
+            var impact = document.querySelector('input[name="impact"]:checked').value
+
+            var dataObject =
+            {
+                "Title": title,
+                "Description": description,
+                "Effort": parseInt(effort),
+                "Impact": parseInt(impact)
+            };
+
+            var dataJson = JSON.stringify(dataObject);
+
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44377/api/ideas/create",
+                contentType: "application/json",
+                data: dataJson,
+            });
+        }
+    </script>
+
+    <style>
+        .likert li {
+            float: left;
+            list-style-type: none;
+        }
+
+        .controls{
+            position:relative;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .ideas {
+            background-color: white;
+            border-color: #DEDCD9;
+            border-radius: 8px;
+            border: 1px solid rgba(247, 246, 244, .8);
+        }
+
+        .idea{
+            padding: 20px;
+            position: relative;
+            border-bottom: 1px solid #DEDCD9;
+            display: flex;
+        }
+
+        .priority{
+            margin-right: 20px;
+            width: 100px;
+            position: relative;
+            text-align: center;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            border-right: 1px solid #e0e0e2;
+            
+        }
+
+        .pValue{
+            display:block;
+            padding:25px;
+            line-height:1;
+            font-size:3.1rem;
+            font-weight:700;
+            text-decoration:none;
+            flex-grow: 1;
+        }
+
+        .high {
+            color: #ff6961;
+        }
+
+        .medium {
+            color: #ffb347;
+        }
+
+        .low{
+            color: #d5b60a;
+        }
+
+        .pLabel{
+            font-size:1.3rem;
+            display:block;
+            font-weight: 400;
+            color: #2c3136;
+        }
+
+        .info{
+            width: calc(100% - 100px);
+        }
+
+        .hashtags {
+            margin-top: 3px;
+        }
+
+        .hashtag {
+            font-size: 1.1rem;
+            display:inline-block;
+            padding: 0.3em 0.5em 0.4em 0.5em;
+            border-radius: 3px;
+            margin-right: 3px;
+            margin-bottom: 4px;
+            display:inline;
+            font-weight:700;
+            line-height:1;
+            text-align:center;
+            white-space:nowrap;
+            vertical-align:baseline;
+        }
+
+        .tag {
+            background-color: #b3bac5;
+            color: #ffffff;
+        }
+
+        .new{
+            background-color: #0079bf;
+            color:#ffffff;
+        }
+
+        .progress {
+            background-color: #c377e0;
+            color: #ffffff;
+        }
+
+        .implemented {
+            background-color: #61bd4f;
+            color: #ffffff;
+        }
+
+        .hashtagButton{
+            outline:none !important;
+        }
+
+        .title{
+            font-size:2rem;
+            margin-bottom:6px;
+            font-weight:400;
+            color:#2c3136;
+            outline:none !important;
+            margin: 1rem 0 1rem 0;
+            line-height:1.2;
+        }
+
+        .meta{
+            margin-bottom: 2.5px;
+        }
+
+        .metaText{
+            color: #2c3136;
+            line-height: 1.5;
+            font-size:1.3rem;
+        }
+
+        body {
+            background-color: #F7F6F4;
+        }
+
+        .btn-gray {
+            background-color: #D3D3D3;
+            color: black;
+            border: none;
+        }
+
+        .center{
+            display:flex;
+            flex-direction:row;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .fixed {
+            position: absolute;
+            width: 100%;
+        }
+    </style>
+

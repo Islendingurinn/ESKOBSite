@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ESKOBSite.Models.Idea>
+@{
+    ViewBag.Title = "Idea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (var item in Model)
+{
+    <div>
+        @item.Title
+        <hr />
+    </div>
+}
