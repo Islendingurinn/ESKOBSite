@@ -1,27 +1,89 @@
-﻿@model ESKOBSite.Models.Idea
+﻿@model ESKOBSite.Viewmodel.IdeaViewmodel
 @{
     ViewBag.Title = "Idea";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Database = Model.Database;
 }
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+</head>
 
-<h2>Idea</h2>
-<p>@Model.Id</p>
-<p>@Model.Title</p>
-<p>@Model.Description</p>
-<p>@Model.Last_Edit</p>
-<p>@Model.Submitted</p>
-<p>@Model.Impact</p>
-<p>@Model.Effort</p>
-<p>@Model.Priority</p>
-<p>@Model.Status</p>
-<p>@Model.Cost_Save</p>
-<p>@Model.Challenges</p>
-<p>@Model.Results</p>
+<div class="crumb circleBorder">
+    <a href="~/@Model.Database/Ideas">Ideas</a>     •     <h1 class="title">@Model.Idea.Title</h1>
+</div>
 
-@foreach (var item in Model.Hashtags)
-{
-    <div>
-        <a href="Idea/@item.Id">@item.Tag</a>
-        <hr />
+<div class="panel idea wrap circleBorder">
+    <div class="priority">
+        @{
+            switch (Model.Idea.Priority)
+            {
+                case "H":
+                    <a href="~/@Model.Database/Ideas/Index/h" class="pValue high" title="High Priority">
+                        H
+                        <span class="pLabel">priority</span>
+                    </a>
+                    break;
+                case "M":
+                    <a href="~/@Model.Database/Ideas/Index/m" class="pValue medium" title="Medium Priority">
+                        M
+                        <span class="pLabel">priority</span>
+                    </a>
+                    break;
+                case "L":
+                    <a href="~/@Model.Database/Ideas/Index/l" class="pValue low" title="Low Priority">
+                        L
+                        <span class="pLabel">priority</span>
+                    </a>
+                    break;
+                default:
+                    break;
+            }
+        }
     </div>
-}
+    <div class="ideaDescription">
+        <p>
+            @Model.Idea.Description
+        </p>
+    </div>
+    <div class="bigMeta">
+        <span class="metaText">
+            Submitted @Model.Idea.Submitted • Last edit: @Model.Idea.Last_Edit • Comments: @Model.Idea.Comments.Count()
+        </span>
+        <div class="hashtags">
+            @{
+                switch (Model.Idea.Status)
+                {
+                    case "NEW":
+                        <a href="~/@Model.Database/Ideas/Index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                            NEW
+                        </a>
+                        break;
+                    case "IN_PROGRESS":
+                        <a href="~/@Model.Database/Ideas/Index/progress" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
+                            IN PROGRESS
+                        </a>
+                        break;
+                    case "IMPLEMENTED":
+                        <a href="~/@Model.Database/Ideas/Index/implemented" class="hashtag implemented hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                            IMPLEMENTED
+                        </a>
+                        break;
+                    default:
+                        break;
+                }
+            }
+            @foreach (var hashtag in Model.Idea.Hashtags)
+            {
+                <a href="~/@Model.Database/Ideas/Hashtag/@hashtag.Tag" class="hashtag tag hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Test">
+                    #@hashtag.Tag
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="panel comments wrap circleBorder">
+    <span class="commentLabel" aria-hidden="true">
+        Comments: @Model.Idea.Comments.Count()
+    </span>
+</div>

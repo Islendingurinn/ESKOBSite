@@ -1,6 +1,7 @@
 ﻿@model ESKOBSite.Viewmodel.IndexViewmodel
 @{
     ViewBag.Title = "Ideas";
+    ViewBag.Database = Model.Database;
 }
 
 <div class="controls">
@@ -138,7 +139,7 @@
                     }
                 </div>
                 <h2 class="title">
-                    <a href="idea">@item.Title</a>
+                    <a href="~/@Model.Database/Ideas/Idea/@item.Id">@item.Title</a>
                 </h2>
                 <div class="meta">
                     <span class="metaText">
@@ -175,161 +176,4 @@
             });
         }
     </script>
-
-    <style>
-        .likert li {
-            float: left;
-            list-style-type: none;
-        }
-
-        .controls{
-            position:relative;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-
-        .ideas {
-            background-color: white;
-            border-color: #DEDCD9;
-            border-radius: 8px;
-            border: 1px solid rgba(247, 246, 244, .8);
-        }
-
-        .idea{
-            padding: 20px;
-            position: relative;
-            border-bottom: 1px solid #DEDCD9;
-            display: flex;
-        }
-
-        .priority{
-            margin-right: 20px;
-            width: 100px;
-            position: relative;
-            text-align: center;
-            display: flex;
-            align-items: stretch;
-            justify-content: center;
-            border-right: 1px solid #e0e0e2;
-            
-        }
-
-        .pValue{
-            display:block;
-            padding:25px;
-            line-height:1;
-            font-size:3.1rem;
-            font-weight:700;
-            text-decoration:none;
-            flex-grow: 1;
-        }
-
-        .high {
-            color: #ff6961;
-        }
-
-        .medium {
-            color: #ffb347;
-        }
-
-        .low{
-            color: #d5b60a;
-        }
-
-        .pLabel{
-            font-size:1.3rem;
-            display:block;
-            font-weight: 400;
-            color: #2c3136;
-        }
-
-        .info{
-            width: calc(100% - 100px);
-        }
-
-        .hashtags {
-            margin-top: 3px;
-        }
-
-        .hashtag {
-            font-size: 1.1rem;
-            display:inline-block;
-            padding: 0.3em 0.5em 0.4em 0.5em;
-            border-radius: 3px;
-            margin-right: 3px;
-            margin-bottom: 4px;
-            display:inline;
-            font-weight:700;
-            line-height:1;
-            text-align:center;
-            white-space:nowrap;
-            vertical-align:baseline;
-        }
-
-        .tag {
-            background-color: #b3bac5;
-            color: #ffffff;
-        }
-
-        .new{
-            background-color: #0079bf;
-            color:#ffffff;
-        }
-
-        .progress {
-            background-color: #c377e0;
-            color: #ffffff;
-        }
-
-        .implemented {
-            background-color: #61bd4f;
-            color: #ffffff;
-        }
-
-        .hashtagButton{
-            outline:none !important;
-        }
-
-        .title{
-            font-size:2rem;
-            margin-bottom:6px;
-            font-weight:400;
-            color:#2c3136;
-            outline:none !important;
-            margin: 1rem 0 1rem 0;
-            line-height:1.2;
-        }
-
-        .meta{
-            margin-bottom: 2.5px;
-        }
-
-        .metaText{
-            color: #2c3136;
-            line-height: 1.5;
-            font-size:1.3rem;
-        }
-
-        body {
-            background-color: #F7F6F4;
-        }
-
-        .btn-gray {
-            background-color: #D3D3D3;
-            color: black;
-            border: none;
-        }
-
-        .center{
-            display:flex;
-            flex-direction:row;
-            align-items:center;
-            justify-content:center;
-        }
-
-        .fixed {
-            position: absolute;
-            width: 100%;
-        }
-    </style>
 

@@ -30,15 +30,19 @@ namespace ESKOBSite.Controllers
             return View(viewmodel);
         }
 
-        public async Task<ActionResult> Idea(int id)
+        public async Task<ActionResult> Idea(string database, int id)
         {
+            IdeaViewmodel viewmodel = new IdeaViewmodel();
             Idea model = null;
             var response = API.GET("/api/ideas/get/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Idea>().Result;
             }
-            return View(model);
+
+            viewmodel.Database = database;
+            viewmodel.Idea = model;
+            return View(viewmodel);
         }
 
         public async Task<ActionResult> Hashtag(string id)
