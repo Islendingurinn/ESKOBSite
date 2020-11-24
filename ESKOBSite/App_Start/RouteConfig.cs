@@ -15,8 +15,8 @@ namespace ESKOBSite
 
             routes.MapRoute(
                 name: "Setup",
-                url: "{database}/{controller}/{action}/{id}",
-                defaults: new { database = "", controller = "ideas", action = "index", id = "all" }
+                url: "{database}/{controller}/{action}/{id}/{search}",
+                defaults: new { database = "", controller = "ideas", action = "index", id = "all", search = UrlParameter.Optional }
             );
 
             routes.MapRoute(

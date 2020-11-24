@@ -15,11 +15,13 @@ namespace ESKOBSite.Controllers
     public class IdeasController : Controller
     { 
 
-        public async Task<ActionResult> Index(string database, string id)
+        public async Task<ActionResult> Index(string database, string id, string search)
         {
             IndexViewmodel viewmodel = new IndexViewmodel();
             List<Idea> model = new List<Idea>();
-            var response = API.GET("/api/ideas/get/" + id).Result;
+            string url = "/api/ideas/get/" + id;
+            if (!(search == null)) url += "/" + search;
+            var response = API.GET(url).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<List<Idea>>().Result;

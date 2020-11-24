@@ -8,6 +8,11 @@
     <a href="~/@Model.Database/ideas/create" class="btn btn-primary pull-right" role="button">
         Add An Idea
     </a>
+    
+    <div class="pull-right">
+        <input class="btn" type="text" placeholder="Search.." name="search" id="searchText">
+        <a href="~/@Model.Database/ideas/index/search/" class="btn glyphicon glyphicon-search" role="button" id="searchButton" onclick="Search()"></a>
+    </div>
 
     <div class="dropdown reset">
         <button type="button" class="btn btn-primary btn-gray dropdown-toggle" id="datemenu" data-toggle="dropdown">
@@ -106,4 +111,13 @@
         </div>
     }
 </div>
+
+<script>
+    function Search() {
+        var text = document.getElementById("searchText").value;
+        var button = document.getElementById("searchButton");
+
+        button.setAttribute("href", button.getAttribute("href") + text);
+    }
+</script>
 
