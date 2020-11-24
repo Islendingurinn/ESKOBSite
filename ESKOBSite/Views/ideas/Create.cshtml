@@ -1,0 +1,139 @@
+﻿@model ESKOBSite.Viewmodel.CreateViewmodel
+@{
+    ViewBag.Title = "Idea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Database = Model.Database.ToLower();
+}
+
+<form>
+    <div class="crumb circleBorder">
+        <a href="~/@Model.Database/Ideas">Ideas</a>     •     <input type="text" id="title" class="titleInput" placeholder="Title">
+    </div>
+
+    <div class="panel idea wrap circleBorder">
+        <div class="priority">
+            <a onclick="Test()" id="priority" href="#" class="pValue low" title="Low Priority">L
+                <span class="pLabel">priority</span>
+            </a>
+        </div>
+        <div class="ideaDescription">
+            <textarea id="description" class="descInput" placeholder="Description"></textarea>
+        </div>
+        <div class="bigMeta">
+            <span class="metaText">
+
+            </span>
+            <div class="hashtags">
+                <a href="~/@Model.Database/Ideas/Index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                    NEW
+                </a>
+                <input type="text" id="hashtags" class="tagInput" placeholder="Tags (seperated by a comma)" />
+            </div><br />
+            <ul class="likert">
+                <li class="title"> Minimal Effort </li>
+                <li><input type="radio" name="effort" value="1" /></li>
+                <li><input type="radio" name="effort" value="2" /></li>
+                <li><input type="radio" name="effort" value="3" /></li>
+                <li><input type="radio" name="effort" value="4" /></li>
+                <li><input type="radio" name="effort" value="5" /></li>
+                <li class="title"> Maximum Effort </li>
+            </ul><br />
+            <ul class="likert">
+                <li class="title"> Minimal Impact </li>
+                <li><input type="radio" name="impact" value="1" /></li>
+                <li><input type="radio" name="impact" value="2" /></li>
+                <li><input type="radio" name="impact" value="3" /></li>
+                <li><input type="radio" name="impact" value="4" /></li>
+                <li><input type="radio" name="impact" value="5" /></li>
+                <li class="title"> Maximum Impact </li>
+            </ul>
+
+            <div class="modal-footer">
+                <a href="~/@Model.Database" class="btn btn-primary pull-right" role="button" onclick="saveIdea()">
+                    Save changes
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    function Test() {
+        var priority = document.getElementById("priority");
+        var next = "";
+
+        switch (priority.innerHTML.substring(0,1)) {
+            case "L":
+                priority.classList.remove("low");
+                priority.classList.add("medium");
+                next = "M";
+                break;
+            case "M":
+                priority.classList.remove("medium");
+                priority.classList.add("high");
+                next = "H";
+                break;
+            case "H":
+                priority.classList.remove("high");
+                priority.classList.add("low");
+                next = "L";
+                break;
+            default:
+                break;
+        }
+
+        priority.innerHTML = "" + next + priority.innerHTML.substring(1, priority.innerHTML.length);
+    }
+
+    function saveIdea() {
+        var title = document.getElementById("title").value;
+        var description = document.getElementById("description").value;
+        var effort = document.querySelector('input[name="effort"]:checked').value
+        var impact = document.querySelector('input[name="impact"]:checked').value
+        var priority = document.getElementById("priority").innerHTML.substring(0, 1);
+
+        var dataObject =
+        {
+            "Title": title,
+            "Description": description,
+            "Effort": parseInt(effort),
+            "Impact": parseInt(impact),
+            "Priority": priority
+        };
+
+        var dataJson = JSON.stringify(dataObject);
+        var ideaId = -1;
+
+        $.ajax({
+        type: "POST",
+            url: "https://localhost:44377/api/ideas/create",
+            contentType: "application/json",
+            data: dataJson,
+            success: function (data, textStatus, xhr) {
+                ideaId = data.reasonPhrase;
+                parts.forEach(createHashtags);
+            }
+        });
+
+        var hashtags = document.getElementById("hashtags").value;
+        var parts = hashtags.split(',');
+        
+        function createHashtags(item, index) {
+            var hashtagObject = {
+                "Tag": item,
+                "IdeaId": ideaId
+            }
+
+            var tagsJson = JSON.stringify(hashtagObject);
+
+            $.ajax({
+            type: "POST",
+            url: "https://localhost:44377/api/hashtags/create",
+            contentType: "application/json",
+            data: tagsJson
+        });
+        };
+    }
+</script>
+

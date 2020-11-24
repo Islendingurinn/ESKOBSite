@@ -1,78 +1,34 @@
 ﻿@model ESKOBSite.Viewmodel.IndexViewmodel
 @{
     ViewBag.Title = "Ideas";
-    ViewBag.Database = Model.Database;
+    ViewBag.Database = Model.Database.ToLower();
 }
 
 <div class="controls">
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ideaModal">
+    <a href="~/@Model.Database/ideas/create" class="btn btn-primary pull-right" role="button">
         Add An Idea
-    </button>
-    <!-- Button trigger modal -->
-    <div class="dropdown">
+    </a>
+
+    <div class="dropdown reset">
         <button type="button" class="btn btn-primary btn-gray dropdown-toggle" id="datemenu" data-toggle="dropdown">
             Filters
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="datamenu">
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/all">All</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/day">Last day</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/week">Last week</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/month">Last month</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/year">Last year</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/all">All</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/day">Last day</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/week">Last week</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/month">Last month</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/year">Last year</a></li>
             <li class="divider"></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/h">High Priority</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/m">Medium Priority</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/l">Low Priority</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/h">High Priority</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/m">Medium Priority</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/l">Low Priority</a></li>
             <li class="divider"></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/new">New</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/progress">In Progress</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/Ideas/Index/implemented">Implemented</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/new">New</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/progress">In Progress</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/implemented">Implemented</a></li>
         </ul>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="ideaModal" tabindex="-1" role="dialog" aria-labelledby="ideaModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ideaModalLabel">New Idea</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body center">
-                <form action="">
-                    <label for="title">Title:</label><br />
-                    <input type="text" id="title" name="title" /><br />
-                    <label for="description">Description:</label><br />
-                    <textarea rows="10" cols="50" id="description"></textarea><br />
-                    <ul class="likert">
-                        <li> Minimal Effort </li>
-                        <li><input type="radio" name="effort" value="1" /></li>
-                        <li><input type="radio" name="effort" value="2" /></li>
-                        <li><input type="radio" name="effort" value="3" /></li>
-                        <li><input type="radio" name="effort" value="4" /></li>
-                        <li><input type="radio" name="effort" value="5" /></li>
-                        <li> Maximum Effort </li>
-                    </ul><br />
-                    <ul class="likert">
-                        <li> Minimal Impact </li>
-                        <li><input type="radio" name="impact" value="1" /></li>
-                        <li><input type="radio" name="impact" value="2" /></li>
-                        <li><input type="radio" name="impact" value="3" /></li>
-                        <li><input type="radio" name="impact" value="4" /></li>
-                        <li><input type="radio" name="impact" value="5" /></li>
-                        <li> Maximum Impact </li>
-                    </ul><br />
-                    </form>
-</div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="saveIdea()">Save changes</button>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -85,19 +41,19 @@
                     switch (item.Priority)
                     {
                         case "H":
-                            <a href="~/@Model.Database/Ideas/Index/h" class="pValue high" title="High Priority">
+                            <a href="~/@Model.Database/ideas/index/h" class="pValue high" title="High Priority">
                                 H
                                 <span class="pLabel">priority</span>
                             </a>
                             break;
                         case "M":
-                            <a href="~/@Model.Database/Ideas/Index/m" class="pValue medium" title="Medium Priority">
+                            <a href="~/@Model.Database/ideas/index/m" class="pValue medium" title="Medium Priority">
                                 M
                                 <span class="pLabel">priority</span>
                             </a>
                             break;
                         case "L":
-                            <a href="~/@Model.Database/Ideas/Index/l" class="pValue low" title="Low Priority">
+                            <a href="~/@Model.Database/ideas/index/l" class="pValue low" title="Low Priority">
                                 L
                                 <span class="pLabel">priority</span>
                             </a>
@@ -113,17 +69,17 @@
                         switch (item.Status)
                         {
                             case "NEW":
-                                <a href="~/@Model.Database/Ideas/Index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                                <a href="~/@Model.Database/ideas/index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
                                     NEW
                                 </a>
                                 break;
                             case "IN_PROGRESS":
-                                <a href="~/@Model.Database/Ideas/Index/progress" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
+                                <a href="~/@Model.Database/ideas/index/progress" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
                                     IN PROGRESS
                                 </a>
                                 break;
                             case "IMPLEMENTED":
-                                <a href="~/@Model.Database/Ideas/Index/implemented" class="hashtag implemented hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                                <a href="~/@Model.Database/ideas/index/implemented" class="hashtag implemented hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
                                     IMPLEMENTED
                                 </a>
                                 break;
@@ -133,13 +89,13 @@
                     }
                     @foreach (var hashtag in item.Hashtags)
                     {
-                        <a href="~/@Model.Database/Ideas/Hashtag/@hashtag.Tag" class="hashtag tag hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Test">
+                        <a href="~/@Model.Database/ideas/hashtag/@hashtag.Tag" class="hashtag tag hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Test">
                             #@hashtag.Tag
                         </a>
                     }
                 </div>
                 <h2 class="title">
-                    <a href="~/@Model.Database/Ideas/Idea/@item.Id">@item.Title</a>
+                    <a href="~/@Model.Database/ideas/idea/@item.Id">@item.Title</a>
                 </h2>
                 <div class="meta">
                     <span class="metaText">
@@ -150,30 +106,4 @@
         </div>
     }
 </div>
-
-    <script>
-        function saveIdea() {
-            var title = document.getElementById("title").value;
-            var description = document.getElementById("description").value;
-            var effort = document.querySelector('input[name="effort"]:checked').value
-            var impact = document.querySelector('input[name="impact"]:checked').value
-
-            var dataObject =
-            {
-                "Title": title,
-                "Description": description,
-                "Effort": parseInt(effort),
-                "Impact": parseInt(impact)
-            };
-
-            var dataJson = JSON.stringify(dataObject);
-
-            $.ajax({
-                type: "POST",
-                url: "https://localhost:44377/api/ideas/create",
-                contentType: "application/json",
-                data: dataJson,
-            });
-        }
-    </script>
 

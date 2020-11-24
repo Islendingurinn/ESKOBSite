@@ -16,13 +16,13 @@ namespace ESKOBSite
             routes.MapRoute(
                 name: "Setup",
                 url: "{database}/{controller}/{action}/{id}",
-                defaults: new { database = "", controller = "Ideas", action = "Index", id = "all" }
+                defaults: new { database = "", controller = "ideas", action = "index", id = "all" }
             );
 
             routes.MapRoute(
                 name: "Default",
                 url: "{id}",
-                defaults: new { controller = "Ideas", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "ideas", action = "index", id = UrlParameter.Optional }
             );
         }
     }

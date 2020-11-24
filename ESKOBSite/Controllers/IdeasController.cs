@@ -45,6 +45,13 @@ namespace ESKOBSite.Controllers
             return View(viewmodel);
         }
 
+        public ActionResult Create(string database)
+        {
+            CreateViewmodel viewmodel = new CreateViewmodel();
+            viewmodel.Database = database;
+            return View(viewmodel);
+        }
+
         public async Task<ActionResult> Hashtag(string id)
         {
             List<Idea> model = new List<Idea>();

@@ -131,6 +131,7 @@
     <Compile Include="Models\Hashtag.cs" />
     <Compile Include="Models\Idea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Viewmodel\CreateViewmodel.cs" />
     <Compile Include="Viewmodel\IdeaViewmodel.cs" />
     <Compile Include="Viewmodel\IndexViewmodel.cs" />
   </ItemGroup>
@@ -171,6 +172,7 @@
     <Content Include="Views\ideas\Index.cshtml" />
     <Content Include="Views\ideas\Idea.cshtml" />
     <Content Include="Views\ideas\Hashtag.cshtml" />
+    <Content Include="Views\ideas\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

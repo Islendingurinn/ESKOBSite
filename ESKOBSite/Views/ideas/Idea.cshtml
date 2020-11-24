@@ -2,11 +2,8 @@
 @{
     ViewBag.Title = "Idea";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Database = Model.Database;
+    ViewBag.Database = Model.Database.ToLower();
 }
-<head>
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-</head>
 
 <div class="crumb circleBorder">
     <a href="~/@Model.Database/Ideas">Ideas</a>     •     <h1 class="title">@Model.Idea.Title</h1>
