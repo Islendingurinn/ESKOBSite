@@ -31,7 +31,8 @@
             <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/l">Low Priority</a></li>
             <li class="divider"></li>
             <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/new">New</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/progress">In Progress</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/under_review">Under Review</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/under_implementation">Under Implementation</a></li>
             <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/implemented">Implemented</a></li>
         </ul>
     </div>
@@ -78,9 +79,14 @@
                                     NEW
                                 </a>
                                 break;
-                            case "IN_PROGRESS":
-                                <a href="~/@Model.Database/ideas/index/progress" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
-                                    IN PROGRESS
+                            case "UNDER_REVIEW":
+                                <a href="~/@Model.Database/ideas/index/under_review" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
+                                    UNDER REVIEW
+                                </a>
+                                break;
+                            case "UNDER_IMPLEMENTATION":
+                                <a href="~/@Model.Database/ideas/index/under_implementation" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
+                                    UNDER IMPLEMENTATION
                                 </a>
                                 break;
                             case "IMPLEMENTED":
@@ -119,5 +125,6 @@
 
         button.setAttribute("href", button.getAttribute("href") + text);
     }
+
 </script>
 

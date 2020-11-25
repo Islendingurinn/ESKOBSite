@@ -42,6 +42,61 @@
             @Model.Idea.Description
         </p>
     </div>
+    <div class="scales">
+        @{
+            switch (Model.Idea.Effort)
+            {
+                case 1:
+                case 2:
+                    <a href="#" class="pValue low" title="Low Effort">
+                        @Model.Idea.Effort
+                        <span class="pLabel">effort</span>
+                    </a>
+                    break;
+                case 3:
+                    <a href="#" class="pValue medium" title="Medium Effort">
+                        @Model.Idea.Effort
+                        <span class="pLabel">effort</span>
+                    </a>
+                    break;
+                case 4:
+                case 5:
+                    <a href="#" class="pValue high" title="High Effort">
+                        @Model.Idea.Effort
+                        <span class="pLabel">effort</span>
+                    </a>
+                    break;
+                default:
+                    break;
+            }
+
+            switch (Model.Idea.Impact)
+            {
+                case 1:
+                case 2:
+                    <a href="#" class="pValue high" title="Low Impact">
+                        @Model.Idea.Impact
+                        <span class="pLabel">impact</span>
+                    </a>
+                    break;
+                case 3:
+                    <a href="#" class="pValue medium" title="Medium Impact">
+                        @Model.Idea.Impact
+                        <span class="pLabel">impact</span>
+                    </a>
+                    break;
+                case 4:
+                case 5:
+                    <a href="#" class="pValue low" title="High Impact">
+                        @Model.Idea.Impact
+                        <span class="pLabel">impact</span>
+                    </a>
+                    break;
+                default:
+                    break;
+            }
+        }
+    </div>
     <div class="bigMeta">
         <span class="metaText">
             Submitted @Model.Idea.Submitted • Last edit: @Model.Idea.Last_Edit • Comments: @Model.Idea.Comments.Count()
@@ -55,9 +110,14 @@
                             NEW
                         </a>
                         break;
-                    case "IN_PROGRESS":
-                        <a href="~/@Model.Database/Ideas/Index/progress" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
-                            IN PROGRESS
+                    case "UNDER_REVIEW":
+                        <a href="~/@Model.Database/ideas/index/under_review" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
+                            UNDER REVIEW
+                        </a>
+                        break;
+                    case "UNDER_IMPLEMENTATION":
+                        <a href="~/@Model.Database/ideas/index/under_implementation" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea In Progress">
+                            UNDER IMPLEMENTATION
                         </a>
                         break;
                     case "IMPLEMENTED":
@@ -76,11 +136,88 @@
                 </a>
             }
         </div>
+        @{
+            if (Model.Idea.Status.ToLower().Equals("new"))
+            {
+                <div class="evaluate">
+                    <a href="#" class="btn btn-accept glyphicon glyphicon-check pull-right" role="button" onclick="AcceptIdea(@Model.Idea.Id)"></a>
+                    <a href="#" class="btn btn-deny glyphicon glyphicon-remove pull-right" role="button" onclick="DenyIdea(@Model.Idea.Id)"></a>
+                </div>
+            }
+        }
     </div>
 </div>
+@{
+    if (!Model.Idea.Status.ToLower().Equals("new"))
+    {
+    <div class="panel comments wrap circleBorder">
+        <button class="btn btn-clear glyphicon glyphicon-collapse-down pull-right" data-toggle="collapse" data-target="#comments"></button>
+        <span class="commentLabel" aria-hidden="true">
+            Comments: @Model.Idea.Comments.Count()
+        </span>
+        <ul id="comments" class="collapse comments">
+            @foreach (var item in Model.Idea.Comments)
+            {
+                <li class="comment">
+                    <span class="commentDate">@item.Date.Day / @item.Date.Month / @item.Date.Year</span><br />
+                    <span class="commentAuthor"><strong>Jeppi Hansen</strong></span>
+                    <p>@item.Body</p>
+                </li>
+            }
 
-<div class="panel comments wrap circleBorder">
-    <span class="commentLabel" aria-hidden="true">
-        Comments: @Model.Idea.Comments.Count()
-    </span>
-</div>
+        <li>
+            <form>
+                <textarea id="commentInput" class="descInput" placeholder="Comment"></textarea>
+            </form>
+            <button class="btn btn-primary pull-right" role="button" onclick="addComment(@Model.Idea.Id)">
+                Post Comment
+            </button>
+        </li>
+        </ul>
+    </div>
+    }
+}
+
+<script>
+    function AcceptIdea(value) {
+        $.ajax({
+            url: 'https://localhost:44377/api/ideas/escalate/UNDER_REVIEW/' + value,
+            type: 'GET',
+            dataType: 'json',
+        });
+
+        location.reload();
+    }
+
+    function DenyIdea(value) {
+        $.ajax({
+            url: 'https://localhost:44377/api/ideas/escalate/DELETED/' + value,
+            type: 'GET',
+            dataType: 'json',
+        });
+
+        location.reload();
+    }
+
+    function addComment(val) {
+        var text = document.getElementById("commentInput").value;
+
+        var dataObject =
+        {
+            "Body": text,
+            "IdeaId": val,
+        };
+
+        var dataJson = JSON.stringify(dataObject);
+
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:44377/api/comments/create",
+            contentType: "application/json",
+            data: dataJson,
+            success: function (data, textStatus, xhr) {
+                location.reload();
+            }
+        });
+    }
+</script>

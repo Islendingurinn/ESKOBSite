@@ -128,6 +128,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Hashtag.cs" />
     <Compile Include="Models\Idea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
