@@ -52,6 +52,37 @@ input[type='radio']{
     border-right: 1px solid #e0e0e2;
 }
 
+.scales {
+    margin-left: 20px;
+    width: 150px;
+    position: relative;
+    text-align: center;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    border-left: 1px solid #e0e0e2;
+}
+
+.evaluate {
+    margin-right: 25px;
+}
+
+.btn-accept {
+    background-color: #a0da59;
+    color: #fff;
+    border-color: #83c92d;
+}
+
+.btn-clear {
+    background-color: transparent;
+}
+
+.btn-deny {
+    background-color: #ff404c;
+    color: #fff;
+    border-color: #ff0010;
+}
+
 .pValue {
     display: block;
     padding: 25px;
@@ -71,7 +102,7 @@ input[type='radio']{
 }
 
 .low {
-    color: #d5b60a;
+    color: #a0da59;
 }
 
 .pLabel {
@@ -180,6 +211,17 @@ body {
     width: 100%;
 }
 
+.comment {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e2;
+}
+
+.commentDate {
+    font-size: 1.4rem;
+    font-style: italic;
+}
+
 .crumb {
     background: #ffffff;
     font-size: 2rem;
@@ -215,6 +257,7 @@ a {
 
 .comments{
     padding: 20px;
+    list-style-type:none;
 }
 
 .commentLabel {

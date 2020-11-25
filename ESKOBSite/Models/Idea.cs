@@ -20,6 +20,6 @@ namespace ESKOBSite.Models
         public int Impact { get; set; }
         public int Effort { get; set; }
         public IEnumerable<Hashtag> Hashtags { get; set; }
-        public IEnumerable<Object> Comments { get; set; } = new List<Object>();
+        public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
