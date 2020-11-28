@@ -12,7 +12,7 @@
 
     <div class="panel idea wrap circleBorder">
         <div class="priority">
-            <a onclick="Test()" id="priority" href="#" class="pValue low" title="Low Priority">L
+            <a onclick="changePriority()" id="priority" href="#" class="pValue low" title="Low Priority">L
                 <span class="pLabel">priority</span>
             </a>
         </div>
@@ -59,7 +59,7 @@
 
 
 <script>
-    function Test() {
+    function changePriority() {
         var priority = document.getElementById("priority");
         var next = "";
 

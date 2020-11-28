@@ -1,0 +1,188 @@
+﻿@model ESKOBSite.Viewmodel.IdeaViewmodel
+@{
+    ViewBag.Title = "Task";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Database = Model.Database.ToLower();
+}
+<head>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.mentions.js" type="text/javascript"></script>
+
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+</head>
+
+<div class="crumb circleBorder">
+    <a href="~/@Model.Database/ideas/idea/@Model.Task.Idea.Id">Tasks</a>     •     <h1 class="title">@Model.Task.Title</h1>
+</div>
+
+<div class="panel idea wrap circleBorder">
+    <div class="ideaDescription">
+        <p>
+            @Model.Task.Description
+        </p>
+    </div>
+    <div class="scales">
+        <span class="pValue medium pull-right">@Model.Task.Estimation</span>
+    </div>
+    <div class="bigMeta">
+        <span class="metaText">
+            Author @Model.Task.Creator.Name • Comments: @Model.Task.Comments.Count()
+        </span>
+        <div class="hashtags">
+            @{
+                switch (Model.Task.Status)
+                {
+                    case "NOT_STARTED":
+                        <a href="#" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Not Started">
+                            NOT STARTED
+                        </a>
+                        break;
+                    case "IN_PROGRESS":
+                        <a href="#" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="In Progress">
+                            IN PROGRESS
+                        </a>
+                        break;
+                    case "DONE":
+                        <a href="#" class="hashtag implemented hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Done">
+                            DONE
+                        </a>
+                        break;
+                    case "DELETED":
+                        <a href="#" class="hashtag deleted hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Deleted">
+                            DELETED
+                        </a>
+                        break;
+                    default:
+                        break;
+                }
+            }
+        </div>
+        @{
+            if (!Model.Task.Status.Equals("NOT_STARTED") && !Model.Task.Status.Equals("DELETED"))
+            {
+                <div class="evaluate">
+                    <a href="#" class="btn btn-accept glyphicon glyphicon-check pull-right" role="button" onclick="updateStatus(@Model.Task.Id, '@Model.Task.Status')"></a>
+                    <a href="#" class="btn btn-deny glyphicon glyphicon-remove pull-right" role="button" onclick="deleteTask(@Model.Task.Id)"></a>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="panel comments wrap circleBorder">
+    <button class="btn btn-clear glyphicon glyphicon-collapse-down pull-right" data-toggle="collapse" data-target="#comments"></button>
+    <span class="commentLabel" aria-hidden="true">
+        Comments: @Model.Task.Comments.Count()
+    </span>
+    <ul id="comments" class="collapse comments">
+        @foreach (var item in Model.Task.Comments)
+        {
+            <li class="comment">
+                <span class="commentDate">@item.Date.Day / @item.Date.Month / @item.Date.Year</span><br />
+                <span class="commentAuthor"><strong>Jeppi Hansen</strong></span>
+                <p>@item.Body</p>
+            </li>
+        }
+
+    <li>
+        <form>
+            <textarea id="commentInput" class="descInput mentions" placeholder="Comment"></textarea>
+        </form>
+        <button id="postComment" class="btn btn-primary get-mentions pull-right" role="button" onclick="addComment(@Model.Task.Idea.Id, @Model.Task.Id)">
+            Post Comment
+        </button>
+    </li>
+    </ul>
+</div>
+
+<script>
+    function updateStatus(id, status) {
+
+        var newStatus = "";
+        if (status == "NOT_STARTED") {
+            newStatus = "IN_PROGRESS";
+        } else if (status == "IN_PROGRESS") {
+            newStatus = "DONE";
+        }
+
+        $.ajax({
+            url: 'https://localhost:44377/api/tasks/escalate/' + newStatus + '/' + id,
+            type: 'GET',
+            dataType: 'json',
+        });
+
+        location.reload(true);
+    }
+
+    function deleteTask(id) {
+        $.ajax({
+            url: 'https://localhost:44377/api/tasks/escalate/DELETED/' + id,
+            type: 'GET',
+            dataType: 'json',
+        });
+
+        location.reload(true);
+    }
+
+    function addComment(idea, task) {
+        var text = document.getElementById("commentInput").value;
+
+        var dataObject =
+        {
+            "Body": text,
+            "IdeaId": idea,
+            "TaskId": task
+        };
+
+        //alert(JSON.stringify(mentions));
+        //alert(JSON.stringify($('textarea').mentionsInput('getValue')));
+
+        var dataJson = JSON.stringify(dataObject);
+        //alert(text);
+
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:44377/api/comments/create",
+            contentType: "application/json",
+            data: dataJson,
+            success: function (data, textStatus, xhr) {
+                location.reload();
+            }
+        });
+
+    }
+
+
+    $('.mentions').mentionsInput({
+        source: function (request, response) {
+            $.ajax({
+                url: 'https://localhost:44377/api/managers/getall',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data, textStatus, xhr) {
+                    //data[value] = data[name];
+                    function iterate(item) {
+                        item.uid = item.id;
+                        item.value = item.name;
+                    }
+
+                    data.forEach(iterate);
+                    //alert(JSON.stringify(data));
+                    response(data);
+                }
+            });
+        },
+
+        showAtCaret: true
+    });
+
+    //TODO: Mentions
+    /*$('.get-mentions').click(function () {
+        $('.mentions').mentionsInput('getValue', function (text) {
+            alert(text);
+        });
+    });*/
+    
+</script>

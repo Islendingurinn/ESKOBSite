@@ -19,7 +19,8 @@ namespace ESKOBSite.Models
         public string Results { get; set; }
         public int Impact { get; set; }
         public int Effort { get; set; }
-        public IEnumerable<Hashtag> Hashtags { get; set; }
+        public IEnumerable<Hashtag> Hashtags { get; set; } = new List<Hashtag>();
+        public IEnumerable<Task> Tasks { get; set; } = new List<Task>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
