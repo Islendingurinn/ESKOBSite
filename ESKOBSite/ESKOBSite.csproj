@@ -124,6 +124,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\IdeasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -132,6 +133,7 @@
     <Compile Include="Models\Hashtag.cs" />
     <Compile Include="Models\Idea.cs" />
     <Compile Include="Models\Manager.cs" />
+    <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Viewmodel\CreateViewmodel.cs" />
     <Compile Include="Viewmodel\IdeaViewmodel.cs" />
@@ -180,6 +182,8 @@
     <Content Include="Views\ideas\Idea.cshtml" />
     <Content Include="Views\ideas\Hashtag.cshtml" />
     <Content Include="Views\ideas\Create.cshtml" />
+    <Content Include="Views\tasks\Task.cshtml" />
+    <Content Include="Views\tasks\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

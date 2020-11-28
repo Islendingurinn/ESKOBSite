@@ -1,0 +1,64 @@
+﻿@model ESKOBSite.Viewmodel.CreateViewmodel
+@{
+    ViewBag.Title = "Task";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Database = Model.Database.ToLower();
+}
+
+<form>
+    <div class="crumb circleBorder">
+        <a href="~/@Model.Database/ideas/idea/@Model.Idea.Id">Tasks</a>     •     <input type="text" id="title" class="titleInput" placeholder="Title">
+    </div>
+
+    <div class="panel idea wrap circleBorder">
+        <div class="ideaDescription">
+            <textarea id="description" class="descInput" placeholder="Description"></textarea>
+        </div>
+        <div class="bigMeta">
+            <span class="metaText">
+
+            </span>
+            <div class="hashtags">
+                <a href="#" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Not Started">
+                    NOT STARTED
+                </a>
+            </div><br />
+            <input type="text" id="estimation" class="tagInput" placeholder="Time Estimation" />
+
+            <div class="modal-footer">
+                <a href="~/@Model.Database/ideas/idea/@Model.Idea.Id" class="btn btn-primary pull-right" role="button" onclick="saveTask()">
+                    Save changes
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    //TODO: CREATOR ID
+    function saveTask() {
+        var title = document.getElementById("title").value;
+        var description = document.getElementById("description").value;
+        var estimation = document.getElementById("estimation").value;
+
+        var dataObject =
+        {
+            "Title": title,
+            "Description": description,
+            "Estimation": estimation,
+            "IdeaId": @Model.Idea.Id
+        };
+
+        var dataJson = JSON.stringify(dataObject);
+
+        $.ajax({
+        type: "POST",
+            url: "https://localhost:44377/api/tasks/create",
+            contentType: "application/json",
+            data: dataJson,
+            success: function (data, textStatus, xhr) {}
+        });
+    }
+</script>
+

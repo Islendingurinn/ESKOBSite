@@ -155,6 +155,11 @@ input[type='radio']{
     color: #ffffff;
 }
 
+.deleted {
+    background-color: #ff404c;
+    color: #ffffff;
+}
+
 .hashtagButton {
     outline: none !important;
 }
