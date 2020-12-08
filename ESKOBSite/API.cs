@@ -23,5 +23,16 @@ namespace ESKOBSite
                 return client.GetAsync(url).Result;
             }
         }
+
+        public static async Task<bool> VALIDATETENANT(string tenant)
+        {
+            var response = GET("/tenants/exists/" + tenant).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsAsync<bool>().Result;
+            }
+
+            return false;
+        }
     }
 }

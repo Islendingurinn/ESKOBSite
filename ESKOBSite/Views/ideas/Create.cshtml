@@ -59,6 +59,8 @@
 
 
 <script>
+    var database = "@(ViewBag.Database)";
+
     function changePriority() {
         var priority = document.getElementById("priority");
         var next = "";
@@ -107,7 +109,7 @@
 
         $.ajax({
         type: "POST",
-            url: "https://localhost:44377/api/ideas/create",
+            url: "https://localhost:44377/" + database + "/ideas/create",
             contentType: "application/json",
             data: dataJson,
             success: function (data, textStatus, xhr) {
@@ -118,7 +120,7 @@
 
         var hashtags = document.getElementById("hashtags").value;
         var parts = hashtags.split(',');
-        
+
         function createHashtags(item, index) {
             var hashtagObject = {
                 "Tag": item,
@@ -129,7 +131,7 @@
 
             $.ajax({
             type: "POST",
-            url: "https://localhost:44377/api/hashtags/create",
+            url: "https://localhost:44377/" + database + "/hashtags/create",
             contentType: "application/json",
             data: tagsJson
         });
