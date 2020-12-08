@@ -312,6 +312,8 @@
     }
 }
 <script>
+    var database = "@(ViewBag.Database)";
+
     function updateStatus(id, status) {
         var newStatus = "";
         switch (status) {
@@ -329,7 +331,7 @@
         }
 
         $.ajax({
-            url: 'https://localhost:44377/api/ideas/escalate/' + newStatus + '/' + id,
+            url: 'https://localhost:44377/' + database + '/ideas/escalate/' + newStatus + '/' + id,
             type: 'GET',
             dataType: 'json',
         });
@@ -339,7 +341,7 @@
 
     function deleteIdea(id) {
         $.ajax({
-            url: 'https://localhost:44377/api/ideas/escalate/DELETED/' + value,
+            url: 'https://localhost:44377/' + database + '/ideas/escalate/DELETED/' + value,
             type: 'GET',
             dataType: 'json',
         });
@@ -360,7 +362,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'https://localhost:44377/api/ideas/edit',
+            url: 'https://localhost:44377/' + database + '/ideas/edit',
             contentType: 'application/json',
             data: JSON.stringify(dataObject)
         });
@@ -385,7 +387,7 @@
 
         $.ajax({
             type: "POST",
-            url: "https://localhost:44377/api/comments/create",
+            url: "https://localhost:44377/" + database + "/comments/create",
             contentType: "application/json",
             data: dataJson,
             success: function (data, textStatus, xhr) {
@@ -399,7 +401,7 @@
     $('.mentions').mentionsInput({
         source: function (request, response) {
             $.ajax({
-                url: 'https://localhost:44377/api/managers/getall',
+                url: 'https://localhost:44377/' + database + '/managers/getall',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data, textStatus, xhr) {

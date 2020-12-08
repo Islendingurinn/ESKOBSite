@@ -17,15 +17,21 @@ namespace ESKOBSite.Controllers
 
         public async Task<ActionResult> Index(string database)
         {
+            if (!await API.VALIDATETENANT(database))
+                return View("~/Views/Shared/Error.cshtml");
+
             return Redirect("/" + database);
         }
 
         //TODO
         public async Task<ActionResult> Task(string database, int id)
         {
+            if (!await API.VALIDATETENANT(database))
+                return View("~/Views/Shared/Error.cshtml");
+
             IdeaViewmodel viewmodel = new IdeaViewmodel();
             Models.Task model = null;
-            var response = API.GET("/api/tasks/get/" + id).Result;
+            var response = API.GET("/" + database + "/tasks/get/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Models.Task>().Result;
@@ -36,11 +42,14 @@ namespace ESKOBSite.Controllers
             return View(viewmodel);
         }
 
-        public ActionResult Create(string database, string id)
+        public async Task<ActionResult> Create(string database, string id)
         {
+            if (!await API.VALIDATETENANT(database))
+                return View("~/Views/Shared/Error.cshtml");
+
             CreateViewmodel viewmodel = new CreateViewmodel();
             Idea model = null;
-            var response = API.GET("/api/ideas/get/" + id).Result;
+            var response = API.GET("/" + database + "/ideas/get/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Idea>().Result;
