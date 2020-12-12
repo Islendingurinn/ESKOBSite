@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ESKOBSite.Viewmodel;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,14 +12,10 @@ namespace ESKOBSite.Controllers
     public class AccountController : Controller
     {
 
-
-        public ActionResult Login(string database)
+        public ActionResult Login() 
         {
-            return View(database);
+            return View();
         }
 
-
-
-
-    }
-}
+        
+        }
