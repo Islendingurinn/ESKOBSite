@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace ESKOBSite.Controllers
 {
     public class AccountController : Controller
     {
 
-        public ActionResult Login() 
+        public System.Web.Mvc.ActionResult Login()
         {
+            
             return View();
         }
 
-        
-        }
+    }
+}
