@@ -26,10 +26,12 @@ namespace ESKOBSite
 
         public static async Task<bool> VALIDATETENANT(string tenant)
         {
-            var response = GET("/tenants/exists/" + tenant).Result;
-            if (response.IsSuccessStatusCode)
+            if (tenant.Equals("")) return false;
+
+            var response = GET("/tenants/" + tenant).Result;
+            if ((int) response.StatusCode == 200)
             {
-                return response.Content.ReadAsAsync<bool>().Result;
+                return true;
             }
 
             return false;

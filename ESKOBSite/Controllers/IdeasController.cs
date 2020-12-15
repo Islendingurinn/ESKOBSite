@@ -15,15 +15,14 @@ namespace ESKOBSite.Controllers
     public class IdeasController : Controller
     { 
 
-        public async Task<ActionResult> Index(string database, string id, string search)
+        public async Task<ActionResult> Index(string database, string id)
         {
             if (!await API.VALIDATETENANT(database))
                 return View("~/Views/Shared/Error.cshtml");
 
             IndexViewmodel viewmodel = new IndexViewmodel();
             List<Idea> model = new List<Idea>();
-            string url = "/" + database + "/ideas/get/" + id;
-            if (!(search == null)) url += "/" + search;
+            string url = "/" + database + "/ideas/" + id;
             var response = API.GET(url).Result;
             if (response.IsSuccessStatusCode)
             {
@@ -42,7 +41,7 @@ namespace ESKOBSite.Controllers
 
             IdeaViewmodel viewmodel = new IdeaViewmodel();
             Idea model = null;
-            var response = API.GET("/" + database + "/ideas/get/" + id).Result;
+            var response = API.GET("/" + database + "/ideas/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Idea>().Result;
@@ -69,7 +68,7 @@ namespace ESKOBSite.Controllers
                 return View("~/Views/Shared/Error.cshtml");
 
             List<Idea> model = new List<Idea>();
-            var response = API.GET("/" + database + "/hashtags/getideas/" + id).Result;
+            var response = API.GET("/" + database + "/hashtags/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<List<Idea>>().Result;
