@@ -31,7 +31,7 @@ namespace ESKOBSite.Controllers
 
             IdeaViewmodel viewmodel = new IdeaViewmodel();
             Models.Task model = null;
-            var response = API.GET("/" + database + "/tasks/get/" + id).Result;
+            var response = API.GET("/" + database + "/tasks/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Models.Task>().Result;
@@ -49,7 +49,7 @@ namespace ESKOBSite.Controllers
 
             CreateViewmodel viewmodel = new CreateViewmodel();
             Idea model = null;
-            var response = API.GET("/" + database + "/ideas/get/" + id).Result;
+            var response = API.GET("/" + database + "/ideas/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Idea>().Result;

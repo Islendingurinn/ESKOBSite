@@ -56,10 +56,12 @@
 
         $.ajax({
         type: "POST",
-            url: "https://localhost:44377/" + database + "/tasks/create",
+            url: "https://localhost:44377/" + database + "/tasks",
             contentType: "application/json",
             data: dataJson,
-            success: function (data, textStatus, xhr) {}
+            success: function (data, textStatus, xhr) {
+                window.location.href = "/" + database + "/ideas/idea/" + @Model.Idea.Id;
+            }
         });
     }
 </script>

@@ -60,7 +60,7 @@
             }
         </div>
         @{
-            if (!Model.Task.Status.Equals("NOT_STARTED") && !Model.Task.Status.Equals("DELETED"))
+            if (!Model.Task.Status.Equals("DONE") && !Model.Task.Status.Equals("DELETED"))
             {
                 <div class="evaluate">
                     <a href="#" class="btn btn-accept glyphicon glyphicon-check pull-right" role="button" onclick="updateStatus(@Model.Task.Id, '@Model.Task.Status')"></a>
@@ -110,22 +110,22 @@
         }
 
         $.ajax({
-            url: 'https://localhost:44377/' + database + '/tasks/escalate/' + newStatus + '/' + id,
-            type: 'GET',
+            url: 'https://localhost:44377/' + database + '/tasks/' + id + '/' + newStatus,
+            type: 'PUT',
             dataType: 'json',
         });
 
-        location.reload(true);
+        window.location.reload(true);
     }
 
     function deleteTask(id) {
         $.ajax({
-            url: 'https://localhost:44377/' + database + '/tasks/escalate/DELETED/' + id,
+            url: 'https://localhost:44377/' + database + '/tasks/escalate/' + id + '/DELETED',
             type: 'GET',
             dataType: 'json',
         });
 
-        location.reload(true);
+        window.location.reload(true);
     }
 
     function addComment(idea, task) {
@@ -146,11 +146,11 @@
 
         $.ajax({
             type: "POST",
-            url: "https://localhost:44377/" + database + "/comments/create",
+            url: "https://localhost:44377/" + database + "/comments",
             contentType: "application/json",
             data: dataJson,
             success: function (data, textStatus, xhr) {
-                location.reload();
+                window.location.reload(true);
             }
         });
 
@@ -160,7 +160,7 @@
     $('.mentions').mentionsInput({
         source: function (request, response) {
             $.ajax({
-                url: 'https://localhost:44377/' + database + '/managers/getall',
+                url: 'https://localhost:44377/' + database + '/managers',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data, textStatus, xhr) {
