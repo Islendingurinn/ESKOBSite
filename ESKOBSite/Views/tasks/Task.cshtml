@@ -68,7 +68,7 @@
             }
         </div>
         @{
-            if (!Model.Task.Status.Equals("DONE") && !Model.Task.Status.Equals("DELETED"))
+            if (!Model.Task.Status.Equals("DONE") && !Model.Task.Status.Equals("DELETED") && Model.LoggedIn != null)
             {
                 <div class="evaluate">
                     <a href="#" class="btn btn-accept glyphicon glyphicon-check pull-right" role="button" onclick="updateStatus(@Model.Task.Id, '@Model.Task.Status')"></a>
@@ -95,12 +95,15 @@
         }
 
     <li>
+        @if (Model.LoggedIn != null)
+        {
         <form>
             <textarea id="commentInput" class="descInput mentions" placeholder="Comment"></textarea>
         </form>
         <button id="postComment" class="btn btn-primary get-mentions pull-right" role="button" onclick="addComment(@Model.Task.Idea.Id, @Model.Task.Id)">
             Post Comment
         </button>
+        }
     </li>
     </ul>
 </div>

@@ -28,25 +28,54 @@
 <div class="panel idea wrap circleBorder">
     <div class="priority">
         @{
-            switch (Model.Idea.Priority)
+            if (Model.LoggedIn != null)
             {
-                case "H":
-                    <a onclick="changePriority(@Model.Idea.Id)" id="priority" href="#" class="pValue high" title="High Priority">H
-                        <span class="pLabel">priority</span>
-                    </a>
-                    break;
-                case "M":
-                    <a onclick="changePriority(@Model.Idea.Id)" id="priority" href="#" class="pValue medium" title="Medium Priority">M
-                        <span class="pLabel">priority</span>
-                    </a>
-                    break;
-                case "L":
-                    <a onclick="changePriority(@Model.Idea.Id)" id="priority" href="#" class="pValue low" title="Low Priority">L
-                        <span class="pLabel">priority</span>
-                    </a>
-                    break;
-                default:
-                    break;
+                switch (Model.Idea.Priority)
+                {
+                    case "H":
+                        <a onclick="changePriority(@Model.Idea.Id)" id="priority" href="#" class="pValue high" title="High Priority">H
+                            <span class="pLabel">priority</span>
+                        </a>
+                        break;
+                    case "M":
+                        <a onclick="changePriority(@Model.Idea.Id)" id="priority" href="#" class="pValue medium" title="Medium Priority">M
+                            <span class="pLabel">priority</span>
+                        </a>
+                        break;
+                    case "L":
+                        <a onclick="changePriority(@Model.Idea.Id)" id="priority" href="#" class="pValue low" title="Low Priority">L
+                            <span class="pLabel">priority</span>
+                        </a>
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (Model.Idea.Priority)
+                {
+                    case "H":
+                        <a id="priority" href="#" class="pValue high" title="High Priority">
+                            H
+                            <span class="pLabel">priority</span>
+                        </a>
+                        break;
+                    case "M":
+                        <a id="priority" href="#" class="pValue medium" title="Medium Priority">
+                            M
+                            <span class="pLabel">priority</span>
+                        </a>
+                        break;
+                    case "L":
+                        <a id="priority" href="#" class="pValue low" title="Low Priority">
+                            L
+                            <span class="pLabel">priority</span>
+                        </a>
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     </div>
@@ -157,9 +186,9 @@
                 </a>
             }
         </div>
-        <!-- Manager -->
+
         @{
-            if (!Model.Idea.Status.ToLower().Equals("deleted") && !Model.Idea.Status.ToLower().Equals("implemented"))
+            if (!Model.Idea.Status.ToLower().Equals("deleted") && !Model.Idea.Status.ToLower().Equals("implemented") && Model.LoggedIn != null)
             {
                 <div class="evaluate">
                     <a href="#" class="btn btn-accept glyphicon glyphicon-check pull-right" role="button" onclick="updateStatus(@Model.Idea.Id, '@Model.Idea.Status')"></a>
@@ -179,16 +208,28 @@
                 Cost Saving
             </span>
             <ul id="review" class="collapse comments">
-                <li>
-                    <form>
-                        <textarea id="costInput" class="descInput" rows="10" placeholder="Estimated Cost Savings">@Model.Idea.Cost_Save</textarea>
-                    </form>
-                </li>
-                <li>
-                    <a href="#" class="btn btn-primary pull-right" role="button" onclick="saveCost(@Model.Idea.Id)">
-                        Save
-                    </a>
-                </li>
+                @if (Model.LoggedIn != null)
+                {
+                    <li>
+                        <form>
+                            <textarea id="costInput" class="descInput" rows="10" placeholder="Estimated Cost Savings">@Model.Idea.Cost_Save</textarea>
+                        </form>
+                    </li>
+
+                    <li>
+                        <a href="#" class="btn btn-primary pull-right" role="button" onclick="saveCost(@Model.Idea.Id)">
+                            Save
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <form>
+                            <textarea id="costInput" class="descInput" rows="10" placeholder="Estimated Cost Savings" readonly>@Model.Idea.Cost_Save</textarea>
+                        </form>
+                    </li>
+                }
             </ul>
         </div>
 
@@ -211,7 +252,7 @@
                                                 NOT STARTED
                                             </a>
                                             break;
-                                        case "IN_PROGESS":
+                                        case "IN_PROGRESS":
                                             <a href="#" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="In Progress">
                                                 IN PROGRESS
                                             </a>
@@ -238,12 +279,15 @@
                     </li>
                 }
 
-                <li>
-                    <a href="~/@Model.Tenant.Reference/tasks/create/@Model.Idea.Id" class="btn btn-primary pull-right" role="button">
-                        Add Task
-                    </a>
-                </li>
-            </ul>
+                @if (Model.LoggedIn != null)
+                {
+                    <li>
+                        <a href="~/@Model.Tenant.Reference/tasks/create/@Model.Idea.Id" class="btn btn-primary pull-right" role="button">
+                            Add Task
+                        </a>
+                    </li>
+                }
+                </ul>
         </div>
 
         <div class="panel comments wrap circleBorder">
@@ -264,13 +308,18 @@
                     }
                 }
 
+            <li>
+                <form>
+                    <textarea id="commentInput" class="descInput mentions" placeholder="Comment"></textarea>
+                </form>
+            </li>
                 <li>
-                    <form>
-                        <textarea id="commentInput" class="descInput mentions" placeholder="Comment"></textarea>
-                    </form>
+                @if (Model.LoggedIn != null)
+                {
                     <button id="postComment" class="btn btn-primary get-mentions pull-right" role="button" onclick="addComment(@Model.Idea.Id)">
                         Post Comment
                     </button>
+                }
                 </li>
             </ul>
         </div>
@@ -286,16 +335,27 @@
                 Challenges
             </span>
             <ul id="challenges" class="collapse comments">
-                <li>
-                    <form>
-                        <textarea id="challengesInput" class="descInput" rows="10" placeholder="Challenges">@Model.Idea.Challenges</textarea>
-                    </form>
-                </li>
-                <li>
-                    <a href="#" class="btn btn-primary pull-right" role="button" onclick="saveInfo(@Model.Idea.Id)">
-                        Save
-                    </a>
-                </li>
+                @if (Model.LoggedIn != null)
+                {
+                    <li>
+                        <form>
+                            <textarea id="challengesInput" class="descInput" rows="10" placeholder="Challenges">@Model.Idea.Challenges</textarea>
+                        </form>
+                    </li>
+                    <li>
+                        <a href="#" class="btn btn-primary pull-right" role="button" onclick="saveInfo(@Model.Idea.Id)">
+                            Save
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <form>
+                            <textarea id="challengesInput" class="descInput" rows="10" placeholder="Challenges" readonly>@Model.Idea.Challenges</textarea>
+                        </form>
+                    </li>
+                }
             </ul>
         </div>
 
@@ -305,16 +365,27 @@
                 Results
             </span>
             <ul id="results" class="collapse comments">
-                <li>
-                    <form>
-                        <textarea id="resultsInput" class="descInput" rows="10" placeholder="Results">@Model.Idea.Results</textarea>
-                    </form>
-                </li>
-                <li>
-                    <a href="#" class="btn btn-primary pull-right" role="button" onclick="saveInfo(@Model.Idea.Id)">
-                        Save
-                    </a>
-                </li>
+                @if (Model.LoggedIn != null)
+                {
+                    <li>
+                        <form>
+                            <textarea id="resultsInput" class="descInput" rows="10" placeholder="Results">@Model.Idea.Results</textarea>
+                        </form>
+                    </li>
+                    <li>
+                        <a href="#" class="btn btn-primary pull-right" role="button" onclick="saveInfo(@Model.Idea.Id)">
+                            Save
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <form>
+                            <textarea id="resultsInput" class="descInput" rows="10" placeholder="Results" readonly>@Model.Idea.Results</textarea>
+                        </form>
+                    </li>
+                }
             </ul>
         </div>
     }
