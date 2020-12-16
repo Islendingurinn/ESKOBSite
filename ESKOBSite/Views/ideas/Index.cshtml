@@ -1,17 +1,18 @@
 ﻿@model ESKOBSite.Viewmodel.IndexViewmodel
 @{
     ViewBag.Title = "Ideas";
-    ViewBag.Database = Model.Database.ToLower();
+    ViewBag.Name = Model.Tenant.Name.ToLower();
+    ViewBag.Reference = Model.Tenant.Reference.ToLower();
 }
 
 <div class="controls">
-    <a href="~/@Model.Database/ideas/create" class="btn btn-primary pull-right" role="button">
+    <a href="~/@Model.Tenant.Reference/ideas/create" class="btn btn-primary pull-right" role="button">
         Add An Idea
     </a>
     
     <div class="pull-right">
         <input class="btn" type="text" placeholder="Search.." name="search" id="searchText">
-        <a href="~/@Model.Database/ideas/index/" class="btn glyphicon glyphicon-search" role="button" id="searchButton" onclick="Search()"></a>
+        <a href="~/@Model.Tenant.Reference/ideas/index/" class="btn glyphicon glyphicon-search" role="button" id="searchButton" onclick="Search()"></a>
     </div>
 
     <div class="dropdown reset">
@@ -20,20 +21,20 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="datamenu">
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas">All</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/day">Last day</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/week">Last week</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/month">Last month</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/year">Last year</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas">All</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/day">Last day</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/week">Last week</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/month">Last month</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/year">Last year</a></li>
             <li class="divider"></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/h">High Priority</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/m">Medium Priority</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/l">Low Priority</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/h">High Priority</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/m">Medium Priority</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/l">Low Priority</a></li>
             <li class="divider"></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/new">New</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/under_review">Under Review</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/under_implementation">Under Implementation</a></li>
-            <li role="presentation"><a role="menuitem" href="~/@Model.Database/ideas/index/implemented">Implemented</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/new">New</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/under_review">Under Review</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/under_implementation">Under Implementation</a></li>
+            <li role="presentation"><a role="menuitem" href="~/@Model.Tenant.Reference/ideas/index/implemented">Implemented</a></li>
         </ul>
     </div>
 </div>
@@ -47,19 +48,19 @@
                     switch (item.Priority)
                     {
                         case "H":
-                            <a href="~/@Model.Database/ideas/index/h" class="pValue high" title="High Priority">
+                            <a href="~/@Model.Tenant.Reference/ideas/index/h" class="pValue high" title="High Priority">
                                 H
                                 <span class="pLabel">priority</span>
                             </a>
                             break;
                         case "M":
-                            <a href="~/@Model.Database/ideas/index/m" class="pValue medium" title="Medium Priority">
+                            <a href="~/@Model.Tenant.Reference/ideas/index/m" class="pValue medium" title="Medium Priority">
                                 M
                                 <span class="pLabel">priority</span>
                             </a>
                             break;
                         case "L":
-                            <a href="~/@Model.Database/ideas/index/l" class="pValue low" title="Low Priority">
+                            <a href="~/@Model.Tenant.Reference/ideas/index/l" class="pValue low" title="Low Priority">
                                 L
                                 <span class="pLabel">priority</span>
                             </a>
@@ -75,22 +76,22 @@
                         switch (item.Status)
                         {
                             case "NEW":
-                                <a href="~/@Model.Database/ideas/index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                                <a href="~/@Model.Tenant.Reference/ideas/index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
                                     NEW
                                 </a>
                                 break;
                             case "UNDER_REVIEW":
-                                <a href="~/@Model.Database/ideas/index/under_review" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea Under Review">
+                                <a href="~/@Model.Tenant.Reference/ideas/index/under_review" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea Under Review">
                                     UNDER REVIEW
                                 </a>
                                 break;
                             case "UNDER_IMPLEMENTATION":
-                                <a href="~/@Model.Database/ideas/index/under_implementation" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea Under Implementation">
+                                <a href="~/@Model.Tenant.Reference/ideas/index/under_implementation" class="hashtag progress hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea Under Implementation">
                                     UNDER IMPLEMENTATION
                                 </a>
                                 break;
                             case "IMPLEMENTED":
-                                <a href="~/@Model.Database/ideas/index/implemented" class="hashtag implemented hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea Implemented">
+                                <a href="~/@Model.Tenant.Reference/ideas/index/implemented" class="hashtag implemented hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Idea Implemented">
                                     IMPLEMENTED
                                 </a>
                                 break;
@@ -100,13 +101,13 @@
                     }
                     @foreach (var hashtag in item.Hashtags)
                     {
-                        <a href="~/@Model.Database/ideas/index/@hashtag.Tag" class="hashtag tag hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Test">
+                        <a href="~/@Model.Tenant.Reference/ideas/index/@hashtag.Tag" class="hashtag tag hashtagButton" data-toggle="tooltip" data-placement="bottom" title="Test">
                             #@hashtag.Tag
                         </a>
                     }
                 </div>
                 <h2 class="title">
-                    <a href="~/@Model.Database/ideas/idea/@item.Id">@item.Title</a>
+                    <a href="~/@Model.Tenant.Reference/ideas/idea/@item.Id">@item.Title</a>
                 </h2>
                 <div class="meta">
                     <span class="metaText">

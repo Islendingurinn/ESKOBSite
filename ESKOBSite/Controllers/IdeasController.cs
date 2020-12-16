@@ -17,63 +17,73 @@ namespace ESKOBSite.Controllers
 
         public async Task<ActionResult> Index(string database, string id)
         {
-            if (!await API.VALIDATETENANT(database))
+            var tresponse = API.GET("/tenants/" + database).Result;
+            Tenant tenant;
+            if (!tresponse.IsSuccessStatusCode)
+            {
                 return View("~/Views/Shared/Error.cshtml");
+            }
+            else
+            {
+                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
+            }
 
             IndexViewmodel viewmodel = new IndexViewmodel();
             List<Idea> model = new List<Idea>();
-            string url = "/" + database + "/ideas/" + id;
-            var response = API.GET(url).Result;
+            var response = API.GET("/" + tenant.Reference + "/ideas/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<List<Idea>>().Result;
             }
 
-            viewmodel.Database = database;
+            viewmodel.Tenant = tenant;
             viewmodel.Ideas = model;
             return View(viewmodel);
         }
 
         public async Task<ActionResult> Idea(string database, int id)
         {
-            if (!await API.VALIDATETENANT(database))
+            var tresponse = API.GET("/tenants/" + database).Result;
+            Tenant tenant;
+            if (!tresponse.IsSuccessStatusCode)
+            {
                 return View("~/Views/Shared/Error.cshtml");
+            }
+            else
+            {
+                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
+            }
 
             IdeaViewmodel viewmodel = new IdeaViewmodel();
             Idea model = null;
-            var response = API.GET("/" + database + "/ideas/" + id).Result;
+            var response = API.GET("/" + tenant.Reference + "/ideas/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Idea>().Result;
             }
 
-            viewmodel.Database = database;
+            tenant.Name = user;
+            viewmodel.Tenant = tenant;
             viewmodel.Idea = model;
             return View(viewmodel);
         }
 
         public async Task<ActionResult> Create(string database)
         {
-            if (!await API.VALIDATETENANT(database))
+            var tresponse = API.GET("/tenants/" + database).Result;
+            Tenant tenant;
+            if (!tresponse.IsSuccessStatusCode)
+            {
                 return View("~/Views/Shared/Error.cshtml");
+            }
+            else
+            {
+                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
+            }
 
             CreateViewmodel viewmodel = new CreateViewmodel();
-            viewmodel.Database = database;
+            viewmodel.Tenant = tenant;
             return View(viewmodel);
-        }
-
-        public async Task<ActionResult> Hashtag(string id, string database)
-        {
-            if (!await API.VALIDATETENANT(database))
-                return View("~/Views/Shared/Error.cshtml");
-
-            List<Idea> model = new List<Idea>();
-            var response = API.GET("/" + database + "/hashtags/" + id).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                model = response.Content.ReadAsAsync<List<Idea>>().Result;
-            }
-            return View(model);
         }
     }
 }

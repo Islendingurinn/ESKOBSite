@@ -2,12 +2,13 @@
 @{
     ViewBag.Title = "Idea";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Database = Model.Database.ToLower();
+    ViewBag.Name = Model.Tenant.Name.ToLower();
+    ViewBag.Reference = Model.Tenant.Reference.ToLower();
 }
 
 <form>
     <div class="crumb circleBorder">
-        <a href="~/@Model.Database/Ideas">Ideas</a>     •     <input type="text" id="title" class="titleInput" placeholder="Title">
+        <a href="~/@Model.Tenant.Reference/Ideas">Ideas</a>     •     <input type="text" id="title" class="titleInput" placeholder="Title">
     </div>
 
     <div class="panel idea wrap circleBorder">
@@ -24,10 +25,11 @@
 
             </span>
             <div class="hashtags">
-                <a href="~/@Model.Database/Ideas/Index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
+                <a href="~/@Model.Tenant.Reference/Ideas/Index/new" class="hashtag new hashtagButton" data-toggle="tooltip" data-placement="bottom" title="New Idea">
                     NEW
                 </a>
                 <input type="text" id="hashtags" class="tagInput" placeholder="Tags (seperated by a comma)" />
+                <input type="text" id="employee" class="employeeInput" placeholder="Employee No."/>
             </div><br />
             <ul class="likert">
                 <li class="title"> Minimal Effort </li>
@@ -59,7 +61,7 @@
 
 
 <script>
-    var database = "@(ViewBag.Database)";
+    var reference = "@(ViewBag.Reference)";
 
     function changePriority() {
         var priority = document.getElementById("priority");
@@ -91,9 +93,10 @@
     function saveIdea() {
         var title = document.getElementById("title").value;
         var description = document.getElementById("description").value;
-        var effort = document.querySelector('input[name="effort"]:checked').value
-        var impact = document.querySelector('input[name="impact"]:checked').value
+        var effort = document.querySelector('input[name="effort"]:checked').value;
+        var impact = document.querySelector('input[name="impact"]:checked').value;
         var priority = document.getElementById("priority").innerHTML.substring(0, 1);
+        var employee = document.getElementById("employee").value;
 
         var dataObject =
         {
@@ -101,7 +104,8 @@
             "Description": description,
             "Effort": parseInt(effort),
             "Impact": parseInt(impact),
-            "Priority": priority
+            "Priority": priority,
+            "Employee": employee
         };
 
         var dataJson = JSON.stringify(dataObject);
@@ -109,7 +113,7 @@
 
         $.ajax({
         type: "POST",
-            url: "https://localhost:44377/" + database + "/ideas",
+            url: "https://localhost:44377/" + reference + "/ideas",
             contentType: "application/json",
             data: dataJson,
             success: function (data, textStatus, xhr) {
@@ -130,11 +134,11 @@
 
             $.ajax({
             type: "POST",
-            url: "https://localhost:44377/" + database + "/hashtags",
+            url: "https://localhost:44377/" + reference + "/hashtags",
             contentType: "application/json",
             data: tagsJson,
-            success: function (data, textStatus, xhr) {
-                window.location.href = "/" + database;
+                success: function (data, textStatus, xhr) {
+                window.location.href = "/" + reference;
             }
         });
         };

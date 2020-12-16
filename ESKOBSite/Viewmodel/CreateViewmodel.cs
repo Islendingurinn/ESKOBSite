@@ -8,7 +8,7 @@ namespace ESKOBSite.Viewmodel
 {
     public class CreateViewmodel
     {
-        public string Database { get; set; }
+        public Tenant Tenant { get; set; }
         public Idea Idea { get; set; }
     }
 }

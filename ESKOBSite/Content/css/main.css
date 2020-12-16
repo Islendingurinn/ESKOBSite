@@ -300,8 +300,23 @@ a {
     width: 95%
 }
 
+.employeeInput {
+    font-size: 16px;
+    border-radius: 4px;
+    border-color: #D3D3D3;
+    max-width: inherit;
+    width: 25%;
+    margin: 15px 0px 0px 0px;
+}
+
 .reset {
     position: static;
+}
+
+.pull-down{
+    display:inline-block;
+    float:none;
+    width:90%;
 }
 
 /* cyrillic-ext */
