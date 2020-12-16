@@ -11,5 +11,6 @@ namespace ESKOBSite.Viewmodel
         public Idea Idea { get; set; }
         public Task Task { get; set; }
         public Tenant Tenant { get; set; }
+        public Manager LoggedIn { get; set; }
     }
 }

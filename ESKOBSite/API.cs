@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -24,17 +26,15 @@ namespace ESKOBSite
             }
         }
 
-        public static async Task<bool> VALIDATETENANT(string tenant)
+        public static async Task<HttpResponseMessage> POST(string url, object obj)
         {
-            if (tenant.Equals("")) return false;
-
-            var response = GET("/tenants/" + tenant).Result;
-            if ((int) response.StatusCode == 200)
+            using (var client = new HttpClient())
             {
-                return true;
+                client.BaseAddress = uri;
+                var json = JsonConvert.SerializeObject(obj);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                return await client.PostAsync(url, content);
             }
-
-            return false;
         }
     }
 }

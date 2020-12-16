@@ -54,6 +54,17 @@ namespace ESKOBSite.Controllers
                 tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
             }
 
+            Manager loggedin = null;
+            if(!String.IsNullOrEmpty(Session["UserId"] as string) && !String.IsNullOrEmpty(Session["UserName"] as string))
+            {
+                int mid = Int32.Parse(Session["UserId"] as string);
+                var mresponse = API.GET("/" + database + "/managers/" + mid).Result;
+                if (ModelState.IsValid)
+                {
+                    loggedin = mresponse.Content.ReadAsAsync<Manager>().Result;
+                }
+            }
+
             IdeaViewmodel viewmodel = new IdeaViewmodel();
             Idea model = null;
             var response = API.GET("/" + tenant.Reference + "/ideas/" + id).Result;
@@ -62,9 +73,9 @@ namespace ESKOBSite.Controllers
                 model = response.Content.ReadAsAsync<Idea>().Result;
             }
 
-            tenant.Name = user;
             viewmodel.Tenant = tenant;
             viewmodel.Idea = model;
+            viewmodel.LoggedIn = loggedin;
             return View(viewmodel);
         }
 
