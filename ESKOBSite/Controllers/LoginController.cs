@@ -1,14 +1,6 @@
 ﻿using ESKOBSite.Models;
-using ESKOBSite.Viewmodel;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ESKOBSite.Controllers
@@ -16,18 +8,14 @@ namespace ESKOBSite.Controllers
     public class LoginController : Controller
     {
 
-        public async Task<ActionResult> Index(string database)
+        public async Task<ActionResult> Index(string reference)
         {
-            var tresponse = API.GET("/tenants/" + database).Result;
+            var tresponse = await API.GET("/tenants/" + reference);
             Tenant tenant;
             if (!tresponse.IsSuccessStatusCode)
-            {
                 return View("~/Views/Shared/Error.cshtml");
-            }
             else
-            {
-                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
-            }
+                tenant = await tresponse.Content.ReadAsAsync<Tenant>();
 
             ViewBag.Name = tenant.Name;
             ViewBag.Reference = tenant.Reference;
@@ -36,27 +24,26 @@ namespace ESKOBSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(LoginManager objUser, string database)
+        public async Task<ActionResult> Index(LoginManager objUser, string reference)
         {
             if (ModelState.IsValid)
             {
                 Manager manager = null;
-                var result = await API.POST("/" + database + "/login", objUser);
+                var result = await API.POST("/" + reference + "/login", objUser);
                 if (result.IsSuccessStatusCode)
-                {
                     manager = await result.Content.ReadAsAsync<Manager>();
-                }
 
                 if (manager != null)
                 {
                     Session["UserID"] = manager.Id.ToString();
                     Session["UserName"] = manager.Name.ToString();
                     ViewBag.ManagerId = manager.Id;
-                    return Redirect("/" + database);
+                    return Redirect("/" + reference);
                 }
             }
 
-             return View("~/Views/Shared/Error.cshtml");
+            ViewBag.Message = "Incorrect credentials";
+            return View();
         }
     }
 }

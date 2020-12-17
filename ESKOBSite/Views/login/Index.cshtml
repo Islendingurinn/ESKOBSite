@@ -7,7 +7,7 @@
 @using (Html.BeginForm("Index", "Login", FormMethod.Post))
 {
     <fieldset>
-        <legend>Mvc Simple Login Application Demo</legend>
+        <legend class="title loginTitle">Manager Login</legend>
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
@@ -17,7 +17,7 @@
                 @ViewBag.Message
             </div>
         }
-        <table>
+        <table class="loginTable">
             <tr>
                 <td>@Html.LabelFor(a => a.Name)</td>
                 <td>@Html.TextBoxFor(a => a.Name)</td>

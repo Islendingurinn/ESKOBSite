@@ -57,7 +57,8 @@
             "Title": title,
             "Description": description,
             "Estimation": estimation,
-            "IdeaId": @Model.Idea.Id
+            "IdeaId": @Model.Idea.Id,
+            "CreatorId": @Model.LoggedIn.Id,
         };
 
         var dataJson = JSON.stringify(dataObject);

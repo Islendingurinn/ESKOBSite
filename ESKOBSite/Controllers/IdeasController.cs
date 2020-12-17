@@ -1,13 +1,9 @@
 ﻿using ESKOBSite.Models;
 using ESKOBSite.Viewmodel;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ESKOBSite.Controllers
@@ -15,112 +11,103 @@ namespace ESKOBSite.Controllers
     public class IdeasController : Controller
     { 
 
-        public async Task<ActionResult> Index(string database, string id)
+        public async Task<ActionResult> Index(string reference, string id)
         {
-            var tresponse = API.GET("/tenants/" + database).Result;
+            if(String.IsNullOrEmpty(reference))
+                return View("~/Views/Shared/Error.cshtml");
+
+            var tresponse = await API.GET("/tenants/" + reference);
             Tenant tenant;
             if (!tresponse.IsSuccessStatusCode)
-            {
                 return View("~/Views/Shared/Error.cshtml");
-            }
             else
-            {
-                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
-            }
+                tenant = await tresponse.Content.ReadAsAsync<Tenant>();
 
             Manager loggedin = null;
-            if (!String.IsNullOrEmpty(Session["UserId"] as string) && !String.IsNullOrEmpty(Session["UserName"] as string))
+            if (!String.IsNullOrEmpty(Session["UserId"] as string) 
+                && !String.IsNullOrEmpty(Session["UserName"] as string))
             {
                 int mid = Int32.Parse(Session["UserId"] as string);
-                var mresponse = API.GET("/" + database + "/managers/" + mid).Result;
+                var mresponse = await API.GET("/" + reference + "/managers/" + mid);
                 if (ModelState.IsValid)
-                {
-                    loggedin = mresponse.Content.ReadAsAsync<Manager>().Result;
-                }
+                    loggedin = await mresponse.Content.ReadAsAsync<Manager>();
             }
 
-            IndexViewmodel viewmodel = new IndexViewmodel();
             List<Idea> model = new List<Idea>();
-            var response = API.GET("/" + tenant.Reference + "/ideas/" + id).Result;
+            var response = await API.GET("/" + tenant.Reference + "/ideas/" + id);
             if (response.IsSuccessStatusCode)
-            {
-                model = response.Content.ReadAsAsync<List<Idea>>().Result;
-            }
+                model = await response.Content.ReadAsAsync<List<Idea>>();
 
-            viewmodel.Tenant = tenant;
-            viewmodel.Ideas = model;
-            viewmodel.LoggedIn = loggedin;
-            viewmodel.Search = id;
+            IndexViewmodel viewmodel = new IndexViewmodel
+            {
+                Tenant = tenant,
+                Ideas = model,
+                LoggedIn = loggedin,
+                Search = id
+            };
+
             return View(viewmodel);
         }
 
-        public async Task<ActionResult> Idea(string database, int id)
+        public async Task<ActionResult> Idea(string reference, int id)
         {
-            var tresponse = API.GET("/tenants/" + database).Result;
+            var tresponse = await API.GET("/tenants/" + reference);
             Tenant tenant;
             if (!tresponse.IsSuccessStatusCode)
-            {
                 return View("~/Views/Shared/Error.cshtml");
-            }
             else
-            {
-                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
-            }
+                tenant = await tresponse.Content.ReadAsAsync<Tenant>();
 
             Manager loggedin = null;
-            if(!String.IsNullOrEmpty(Session["UserId"] as string) && !String.IsNullOrEmpty(Session["UserName"] as string))
+            if(!String.IsNullOrEmpty(Session["UserId"] as string) 
+                && !String.IsNullOrEmpty(Session["UserName"] as string))
             {
                 int mid = Int32.Parse(Session["UserId"] as string);
-                var mresponse = API.GET("/" + database + "/managers/" + mid).Result;
+                var mresponse = await API.GET("/" + reference + "/managers/" + mid);
                 if (ModelState.IsValid)
-                {
-                    loggedin = mresponse.Content.ReadAsAsync<Manager>().Result;
-                }
+                    loggedin = await mresponse.Content.ReadAsAsync<Manager>();
             }
 
-            IdeaViewmodel viewmodel = new IdeaViewmodel();
             Idea model = null;
-            var response = API.GET("/" + tenant.Reference + "/ideas/" + id).Result;
+            var response = await API.GET("/" + tenant.Reference + "/ideas/" + id);
             if (response.IsSuccessStatusCode)
-            {
-                model = response.Content.ReadAsAsync<Idea>().Result;
-            }
+                model = await response.Content.ReadAsAsync<Idea>();
 
-            viewmodel.Tenant = tenant;
-            viewmodel.Idea = model;
-            viewmodel.LoggedIn = loggedin;
-            
+            IdeaViewmodel viewmodel = new IdeaViewmodel
+            {
+                Tenant = tenant,
+                Idea = model,
+                LoggedIn = loggedin
+            };
+
             return View(viewmodel);
         }
 
-        public async Task<ActionResult> Create(string database)
+        public async Task<ActionResult> Create(string reference)
         {
-            var tresponse = API.GET("/tenants/" + database).Result;
+            var tresponse = await API.GET("/tenants/" + reference);
             Tenant tenant;
             if (!tresponse.IsSuccessStatusCode)
-            {
                 return View("~/Views/Shared/Error.cshtml");
-            }
             else
-            {
-                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
-            }
+                tenant = await tresponse.Content.ReadAsAsync<Tenant>();
 
             Manager loggedin = null;
-            if (!String.IsNullOrEmpty(Session["UserId"] as string) && !String.IsNullOrEmpty(Session["UserName"] as string))
+            if (!String.IsNullOrEmpty(Session["UserId"] as string) 
+                && !String.IsNullOrEmpty(Session["UserName"] as string))
             {
                 int mid = Int32.Parse(Session["UserId"] as string);
-                var mresponse = API.GET("/" + database + "/managers/" + mid).Result;
+                var mresponse = await API.GET("/" + reference + "/managers/" + mid);
                 if (ModelState.IsValid)
-                {
-                    loggedin = mresponse.Content.ReadAsAsync<Manager>().Result;
-                }
+                    loggedin = await mresponse.Content.ReadAsAsync<Manager>();
             }
 
-            CreateViewmodel viewmodel = new CreateViewmodel();
-            viewmodel.Tenant = tenant;
-            viewmodel.LoggedIn = loggedin;
-            
+            CreateViewmodel viewmodel = new CreateViewmodel
+            {
+                Tenant = tenant,
+                LoggedIn = loggedin
+            };
+
             return View(viewmodel);
         }
     }
