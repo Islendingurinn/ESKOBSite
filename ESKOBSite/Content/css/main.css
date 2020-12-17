@@ -414,6 +414,10 @@ a:hover{
     text-decoration: none;
 }
 
+.atMention{
+    font-weight: 700;
+}
+
 /* cyrillic-ext */
 @font-face {
     font-family: 'Montserrat';
