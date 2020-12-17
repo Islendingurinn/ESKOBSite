@@ -17,8 +17,11 @@
     <a href="~/@Model.Tenant.Reference/ideas/create" class="btn btn-primary pull-right" role="button">
         Add An Idea
     </a>
-    
+
     <div class="pull-right">
+        @if (!String.IsNullOrEmpty(Model.Search)){
+            <a class="btn btn-primary" role="button" onclick="Subscribe('@Model.Tenant.Reference', @Model.LoggedIn.Id, '@Model.Search')" style="margin-right:25px" id="sub">Subscribe</a>
+        }
         <input class="btn" type="text" placeholder="Search.." name="search" id="searchText">
         <a href="~/@Model.Tenant.Reference/ideas/index/" class="btn glyphicon glyphicon-search" role="button" id="searchButton" onclick="Search()"></a>
     </div>
@@ -135,5 +138,15 @@
         button.setAttribute("href", button.getAttribute("href") + text);
     }
 
+    function Subscribe(reference, manager, search) {
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44377/" + reference + "/notifications/" + manager + "/" + search,
+                contentType: "application/json",
+                success: function (data, textStatus, xhr) {
+                    $('#sub').hide();
+                }
+            });
+    }
 </script>
 

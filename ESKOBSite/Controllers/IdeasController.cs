@@ -50,7 +50,7 @@ namespace ESKOBSite.Controllers
             viewmodel.Tenant = tenant;
             viewmodel.Ideas = model;
             viewmodel.LoggedIn = loggedin;
-            
+            viewmodel.Search = id;
             return View(viewmodel);
         }
 
