@@ -418,6 +418,18 @@ a:hover{
     font-weight: 700;
 }
 
+.loginTitle{
+    padding: 20px;
+    margin: 20px;
+    font-size: 26px;
+}
+
+.loginTable {
+    margin-left: 50px;
+    border-collapse: separate;
+    border-spacing: 5px;
+}
+
 /* cyrillic-ext */
 @font-face {
     font-family: 'Montserrat';

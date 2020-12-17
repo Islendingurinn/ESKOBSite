@@ -42,7 +42,8 @@ namespace ESKOBSite.Controllers
                 }
             }
 
-             return View("~/Views/Shared/Error.cshtml");
+            ViewBag.Message = "Incorrect credentials";
+            return View();
         }
     }
 }
