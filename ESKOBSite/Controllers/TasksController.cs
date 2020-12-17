@@ -67,6 +67,7 @@ namespace ESKOBSite.Controllers
             viewmodel.Tenant = tenant;
             viewmodel.Task = model;
             viewmodel.LoggedIn = loggedin;
+            
             return View(viewmodel);
         }
 
@@ -109,6 +110,7 @@ namespace ESKOBSite.Controllers
             viewmodel.Tenant = tenant;
             viewmodel.Idea = model;
             viewmodel.LoggedIn = loggedin;
+            
             return View(viewmodel);
         }
     }

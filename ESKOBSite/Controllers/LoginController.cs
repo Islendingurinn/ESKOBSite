@@ -2,6 +2,7 @@
 using ESKOBSite.Viewmodel;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -39,7 +40,7 @@ namespace ESKOBSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                Manager manager = new Manager() { Id = 1, Name = "Test" };
+                Manager manager = null;
                 var result = await API.POST("/" + database + "/login", objUser);
                 if (result.IsSuccessStatusCode)
                 {
@@ -50,6 +51,7 @@ namespace ESKOBSite.Controllers
                 {
                     Session["UserID"] = manager.Id.ToString();
                     Session["UserName"] = manager.Name.ToString();
+                    ViewBag.ManagerId = manager.Id;
                     return Redirect("/" + database);
                 }
             }

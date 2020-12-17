@@ -1,0 +1,15 @@
+﻿@model IEnumerable<ESKOBSite.Models.Notification>
+
+<h2>Notifications - <span>@Model.Count()</span></h2>
+@foreach (var notif in Model)
+{
+<a class="decoration" href="~/@(ViewBag.Reference + "/" + notif.Link)">
+    <div class="notifications-item">
+        <div class="text">
+            <h4>@notif.Title</h4>
+            <p>@notif.Description</p>
+        </div>
+    </div>
+</a>
+}
+

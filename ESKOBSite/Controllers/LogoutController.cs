@@ -19,6 +19,7 @@ namespace ESKOBSite.Controllers
         {
             Session["UserID"] = "";
             Session["UserName"] = "";
+            ViewBag.ManagerId = null;
             return Redirect("/" + database); ;
         }
     }

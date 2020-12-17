@@ -1,0 +1,48 @@
+﻿@model ESKOBSite.Models.PasswordManager
+
+@using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Settings</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (@ViewBag.Message != null)
+        {
+            <div style="border: 1px solid red">
+                @ViewBag.Message
+            </div>
+        }
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(a => a.Old)
+            </td>
+            <td>
+                @Html.PasswordFor(a => a.Old)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(a => a.Old)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(a => a.New)
+            </td>
+            <td>
+                @Html.PasswordFor(a => a.New)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(a => a.New)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="New Password" />
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    </fieldset>
+}  

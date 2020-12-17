@@ -124,6 +124,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
@@ -136,6 +138,8 @@
     <Compile Include="Models\Idea.cs" />
     <Compile Include="Models\LoginManager.cs" />
     <Compile Include="Models\Manager.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\PasswordManager.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\Tenant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -189,6 +193,8 @@
     <Content Include="Views\tasks\Create.cshtml" />
     <Content Include="Views\login\Index.cshtml" />
     <Content Include="Views\Shared\_Manager.cshtml" />
+    <Content Include="Views\notification\Notifications.cshtml" />
+    <Content Include="Views\settings\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

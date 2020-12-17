@@ -23,6 +23,18 @@
                     <li><a href="~/@ViewBag.Reference">Ideas</a></li>
                     <li><a href="~/@ViewBag.Reference/logout">Logout</a></li>
                 </ul>
+                <div class="btn glyphicon glyphicon-cog pull-right bell" style="color: #9d9d9d" id="cog">  </div>
+                <div class="btn glyphicon glyphicon-bell pull-right bell" style="color: #9d9d9d" id="bell">  </div>
+                <div class="notifications" id="box">
+                    @{
+                        @Html.Action("Notifications", "Notification");
+                    }
+                </div>
+                <div class="notifications" id="settings">
+                    @{
+                        @Html.Action("Settings", "Settings");
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -39,3 +51,50 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+
+
+        var cogdown = false;
+
+        $('#cog').click(function (e) {
+
+            var color = $(this).text();
+            if (cogdown) {
+
+                $('#settings').css('height', '0px');
+                $('#settings').css('opacity', '0');
+                cogdown = false;
+            } else {
+
+                $('#settings').css('height', 'auto');
+                $('#settings').css('opacity', '1');
+                cogdown = true;
+
+            }
+
+        });
+
+        var belldown = false;
+
+        $('#bell').click(function (e) {
+
+            var color = $(this).text();
+            if (belldown) {
+
+                $('#box').css('height', '0px');
+                $('#box').css('opacity', '0');
+                belldown = false;
+            } else {
+
+                $('#box').css('height', 'auto');
+                $('#box').css('opacity', '1');
+                belldown = true;
+
+            }
+
+        });
+
+    });
+</script>

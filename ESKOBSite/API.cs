@@ -36,5 +36,16 @@ namespace ESKOBSite
                 return await client.PostAsync(url, content);
             }
         }
+
+        public static async Task<HttpResponseMessage> PUT(string url, object obj)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = uri;
+                var json = JsonConvert.SerializeObject(obj);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                return await client.PutAsync(url, content);
+            }
+        }
     }
 }
