@@ -13,6 +13,9 @@ namespace ESKOBSite.Controllers
 
         public async Task<ActionResult> Index(string reference, string id)
         {
+            if(String.IsNullOrEmpty(reference))
+                return View("~/Views/Shared/Error.cshtml");
+
             var tresponse = await API.GET("/tenants/" + reference);
             Tenant tenant;
             if (!tresponse.IsSuccessStatusCode)
