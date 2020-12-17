@@ -2,22 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace ESKOBSite.Controllers
 {
     public class NotificationController : Controller
     {
-        public async Task<ActionResult> Notifications(string reference)
+        public ActionResult Notifications(string reference)
         {
-
             List<Notification> notifs = null;
             int id = Int32.Parse(Session["UserId"] as string);
-            var response = await API.GET("/" + reference + "/notifications/" + id);
+            var response = API.GETSYNC("/" + reference + "/notifications/" + id);
             if (response.IsSuccessStatusCode)
-                notifs = await response.Content.ReadAsAsync<List<Notification>>();
-
+                notifs = response.Content.ReadAsAsync<List<Notification>>().Result;
+           
             ViewBag.Reference = reference;
             return PartialView(notifs);
         }

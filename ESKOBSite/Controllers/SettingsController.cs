@@ -8,7 +8,7 @@ namespace ESKOBSite.Controllers
 {
     public class SettingsController : Controller
     {
-        public async Task<ActionResult> Settings(string reference)
+        public ActionResult Settings(string reference)
         {
             ViewBag.Reference = reference;
             return PartialView();
