@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace ESKOBSite
 {
@@ -22,7 +19,7 @@ namespace ESKOBSite
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                return client.GetAsync(url).Result;
+                return await client.GetAsync(url);
             }
         }
 

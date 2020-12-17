@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace ESKOBSite
@@ -15,8 +11,8 @@ namespace ESKOBSite
 
             routes.MapRoute(
                 name: "Setup",
-                url: "{database}/{controller}/{action}/{id}",
-                defaults: new { database = "", controller = "ideas", action = "index", id = UrlParameter.Optional }
+                url: "{reference}/{controller}/{action}/{id}",
+                defaults: new { reference = "", controller = "ideas", action = "index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
