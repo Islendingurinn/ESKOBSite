@@ -17,45 +17,100 @@ namespace ESKOBSite.Controllers
 
         public async Task<ActionResult> Index(string database)
         {
-            if (!await API.VALIDATETENANT(database))
+            var tresponse = API.GET("/tenants/" + database).Result;
+            Tenant tenant;
+            if (!tresponse.IsSuccessStatusCode)
+            {
                 return View("~/Views/Shared/Error.cshtml");
+            }
+            else
+            {
+                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
+            }
 
-            return Redirect("/" + database);
+            return Redirect("/" + tenant.Reference);
         }
 
         //TODO
         public async Task<ActionResult> Task(string database, int id)
         {
-            if (!await API.VALIDATETENANT(database))
+            var tresponse = API.GET("/tenants/" + database).Result;
+            Tenant tenant;
+            if (!tresponse.IsSuccessStatusCode)
+            {
                 return View("~/Views/Shared/Error.cshtml");
+            }
+            else
+            {
+                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
+            }
+
+            Manager loggedin = null;
+            if (!String.IsNullOrEmpty(Session["UserId"] as string) && !String.IsNullOrEmpty(Session["UserName"] as string))
+            {
+                int mid = Int32.Parse(Session["UserId"] as string);
+                var mresponse = API.GET("/" + database + "/managers/" + mid).Result;
+                if (ModelState.IsValid)
+                {
+                    loggedin = mresponse.Content.ReadAsAsync<Manager>().Result;
+                }
+            }
 
             IdeaViewmodel viewmodel = new IdeaViewmodel();
             Models.Task model = null;
-            var response = API.GET("/" + database + "/tasks/" + id).Result;
+            var response = API.GET("/" + tenant.Reference + "/tasks/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Models.Task>().Result;
             }
 
-            viewmodel.Database = database;
+            viewmodel.Tenant = tenant;
             viewmodel.Task = model;
+            viewmodel.LoggedIn = loggedin;
+            
             return View(viewmodel);
         }
 
         public async Task<ActionResult> Create(string database, string id)
         {
-            if (!await API.VALIDATETENANT(database))
+            var tresponse = API.GET("/tenants/" + database).Result;
+            Tenant tenant;
+            if (!tresponse.IsSuccessStatusCode)
+            {
                 return View("~/Views/Shared/Error.cshtml");
+            }
+            else
+            {
+                tenant = tresponse.Content.ReadAsAsync<Tenant>().Result;
+            }
+
+            Manager loggedin = null;
+            if (!String.IsNullOrEmpty(Session["UserId"] as string) && !String.IsNullOrEmpty(Session["UserName"] as string))
+            {
+                int mid = Int32.Parse(Session["UserId"] as string);
+                var mresponse = API.GET("/" + database + "/managers/" + mid).Result;
+                if (ModelState.IsValid)
+                {
+                    loggedin = mresponse.Content.ReadAsAsync<Manager>().Result;
+                }
+            }
+            else
+            {
+                return Redirect("/" + tenant.Reference);
+            }
 
             CreateViewmodel viewmodel = new CreateViewmodel();
             Idea model = null;
-            var response = API.GET("/" + database + "/ideas/" + id).Result;
+            var response = API.GET("/" + tenant.Reference + "/ideas/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 model = response.Content.ReadAsAsync<Idea>().Result;
             }
-            viewmodel.Database = database;
+
+            viewmodel.Tenant = tenant;
             viewmodel.Idea = model;
+            viewmodel.LoggedIn = loggedin;
+            
             return View(viewmodel);
         }
     }

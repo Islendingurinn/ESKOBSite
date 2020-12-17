@@ -16,11 +16,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="~/@ViewBag.Database" class="navbar-brand">@ViewBag.Database</a>
+                <a href="~/@ViewBag.Reference" class="navbar-brand">@ViewBag.Name</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="~/@ViewBag.Database">Ideas</a></li>
+                    <li><a href="~/@ViewBag.Reference">Ideas</a></li>
+                    <li><a href="~/@ViewBag.Reference/login">Login</a></li>
                 </ul>
             </div>
         </div>
@@ -29,7 +30,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - @ViewBag.Database</p>
+            <p>&copy; @DateTime.Now.Year - @ViewBag.Name</p>
         </footer>
     </div>
 

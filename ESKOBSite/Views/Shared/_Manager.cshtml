@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Idea Management</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="~/@ViewBag.Reference" class="navbar-brand">@ViewBag.Name</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="~/@ViewBag.Reference">Ideas</a></li>
+                    <li><a href="~/@ViewBag.Reference/logout">Logout</a></li>
+                </ul>
+                <div class="btn glyphicon glyphicon-cog pull-right bell" style="color: #9d9d9d" id="cog">  </div>
+                <div class="btn glyphicon glyphicon-bell pull-right bell" style="color: #9d9d9d" id="bell">  </div>
+                <div class="notifications" id="box">
+                    @{
+                        @Html.Action("Notifications", "Notification");
+                    }
+                </div>
+                <div class="notifications" id="settings">
+                    @{
+                        @Html.Action("Settings", "Settings");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - @ViewBag.Name</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+
+
+        var cogdown = false;
+
+        $('#cog').click(function (e) {
+
+            var color = $(this).text();
+            if (cogdown) {
+
+                $('#settings').css('height', '0px');
+                $('#settings').css('opacity', '0');
+                cogdown = false;
+            } else {
+
+                $('#settings').css('height', 'auto');
+                $('#settings').css('opacity', '1');
+                cogdown = true;
+
+            }
+
+        });
+
+        var belldown = false;
+
+        $('#bell').click(function (e) {
+
+            var color = $(this).text();
+            if (belldown) {
+
+                $('#box').css('height', '0px');
+                $('#box').css('opacity', '0');
+                belldown = false;
+            } else {
+
+                $('#box').css('height', 'auto');
+                $('#box').css('opacity', '1');
+                belldown = true;
+
+            }
+
+        });
+
+    });
+</script>

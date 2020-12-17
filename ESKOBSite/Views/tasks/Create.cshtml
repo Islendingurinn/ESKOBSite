@@ -1,13 +1,21 @@
 ﻿@model ESKOBSite.Viewmodel.CreateViewmodel
 @{
     ViewBag.Title = "Task";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Database = Model.Database.ToLower();
+    if (Model.LoggedIn != null)
+    {
+        Layout = "~/Views/Shared/_Manager.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    ViewBag.Name = Model.Tenant.Name.ToLower();
+    ViewBag.Reference = Model.Tenant.Reference.ToLower();
 }
 
 <form>
     <div class="crumb circleBorder">
-        <a href="~/@Model.Database/ideas/idea/@Model.Idea.Id">Tasks</a>     •     <input type="text" id="title" class="titleInput" placeholder="Title">
+        <a href="~/@Model.Tenant.Reference/ideas/idea/@Model.Idea.Id">Tasks</a>     •     <input type="text" id="title" class="titleInput" placeholder="Title">
     </div>
 
     <div class="panel idea wrap circleBorder">
@@ -26,7 +34,7 @@
             <input type="text" id="estimation" class="tagInput" placeholder="Time Estimation" />
 
             <div class="modal-footer">
-                <a href="~/@Model.Database/ideas/idea/@Model.Idea.Id" class="btn btn-primary pull-right" role="button" onclick="saveTask()">
+                <a href="~/@Model.Tenant.Reference/ideas/idea/@Model.Idea.Id" class="btn btn-primary pull-right" role="button" onclick="saveTask()">
                     Save changes
                 </a>
             </div>
@@ -36,7 +44,7 @@
 
 
 <script>
-    var database = "@(ViewBag.Database)";
+    var reference = "@(ViewBag.Reference)";
 
     //TODO: CREATOR ID
     function saveTask() {
@@ -55,12 +63,12 @@
         var dataJson = JSON.stringify(dataObject);
 
         $.ajax({
-        type: "POST",
-            url: "https://localhost:44377/" + database + "/tasks",
+            type: "POST",
+            url: "https://localhost:44377/" + reference + "/tasks",
             contentType: "application/json",
             data: dataJson,
             success: function (data, textStatus, xhr) {
-                window.location.href = "/" + database + "/ideas/idea/" + @Model.Idea.Id;
+                window.location.href = "/" + reference + "/ideas/idea/" + @Model.Idea.Id;
             }
         });
     }
