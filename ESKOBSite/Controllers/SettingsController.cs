@@ -18,6 +18,13 @@ namespace ESKOBSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Settings(PasswordManager objUser, string reference)
         {
+            if((objUser.Old == null || objUser.Old.Equals(""))
+                || (objUser.New == null) || objUser.New.Equals(""))
+            {
+                ViewBag.Message = "Password cannot be empty!";
+                return PartialView();
+            }
+
             if (ModelState.IsValid)
             {
                 LoginManager lm = new LoginManager() 

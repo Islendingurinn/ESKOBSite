@@ -541,6 +541,16 @@
         $('.get-mentions').click(function () {
             $('textarea.mention').mentionsInput('val', function (text) {
 
+                if (text == "" || text == null) {
+                    alert("You can't post an empty comment!");
+                    return;
+                }
+
+                if (text.length > 1000) {
+                    alert("Comments can be a maximum of 1000 characters")
+                    return;
+                }
+
                 @if(Model.LoggedIn != null)
                 {
                     @: var id = @Model.LoggedIn.Id;

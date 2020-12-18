@@ -34,7 +34,7 @@
             <input type="text" id="estimation" class="tagInput" placeholder="Time Estimation" />
 
             <div class="modal-footer">
-                <a href="~/@Model.Tenant.Reference/ideas/idea/@Model.Idea.Id" class="btn btn-primary pull-right" role="button" onclick="saveTask()">
+                <a class="btn btn-primary pull-right" role="button" onclick="saveTask()">
                     Save changes
                 </a>
             </div>
@@ -46,11 +46,40 @@
 <script>
     var reference = "@(ViewBag.Reference)";
 
-    //TODO: CREATOR ID
     function saveTask() {
         var title = document.getElementById("title").value;
         var description = document.getElementById("description").value;
         var estimation = document.getElementById("estimation").value;
+
+        if (title == null || title == "") {
+            alert("You're missing a title!");
+            return;
+        }
+
+        if (title.length > 100) {
+            alert("Titles can be a maximum of 100 characters");
+            return;
+        }
+
+        if (description == null || description == "") {
+            alert("You're missing a description!");
+            return;
+        }
+
+        if (description.length > 1000) {
+            alert("Descriptions can be a maximum of 1000 characters");
+            return;
+        }
+
+        if (estimation == null || estimation == "") {
+            alert("You're missing a time estimation!");
+            return;
+        }
+
+        if (estimation.length > 10) {
+            alert("Estimations can be a maximum of 10 characters");
+            return;
+        }
 
         var dataObject =
         {
